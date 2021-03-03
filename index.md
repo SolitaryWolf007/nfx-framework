@@ -193,8 +193,34 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     nFXcli.isPedHood()
     
     -- blocks some player keys.
-     -- bool: true or false
+    -- bool: true or false
     nFXcli.LockCommands(bool)
+```
+### survival.lua
+```lua
+    -- return the player health.
+    nFXcli.getHealth()
+    
+    -- set player health.
+    health: integer
+    nFXcli.setHealth(health)
+    
+    -- returns if the player is dead.
+    nFXcli.isDead()
+    
+    -- revive player, and set health.
+    health: integer, or nil
+    nFXcli.revivePlayer(health)
+    
+    -- revive player, used in the prison.
+    nFXcli.PrisionGod()
+    
+    -- return the player armour.
+    nFXcli.getArmour()
+    
+    -- set player armour.
+    armour: integer
+    nFXcli.setArmour(armour)
 ```
 
 ## Server Functions
@@ -319,7 +345,7 @@ The notation is `Interface.function(dest, ...)`.
 
 OBS: Good practice is to get the interface once and set it as a global, but if you want to get multiple times the same interface from the same resource, you need to specify a unique identifier (the name of the resource + a unique id for each one). 
 
-NOTE: Tunnel and Proxy are blocking calls in the current coroutine until the values are returned, to bypass this behaviour, especially for the Tunnel to optimize speed (ping latency of each call), use ` _ ` as prefix for the function name (Proxy/Tunnel interfaces should not have functions starting with ` _ `). This will discard the returned values, but if you still need them, you can make normal calls in a new Citizen thread with `Citizen.CreateThreadNow` or `async` to have non-blocking code.
+NOTE: Tunnel and Proxy are blocking calls in the current coroutine until the values are returned, to bypass this behaviour, especially for the Tunnel to optimize speed (ping latency of each call), use `_` as prefix for the function name (Proxy/Tunnel interfaces should not have functions starting with `_`). This will discard the returned values, but if you still need them, you can make normal calls in a new Citizen thread with `Citizen.CreateThreadNow` or `async` to have non-blocking code.
 
 WARNING: Also remember that Citizen event handlers (used by Proxy and Tunnel) seem to not work while loading the resource, to use the Proxy at loading time, you will need to delay it with `Citizen.CreateThread` or a `SetTimeout`.
 
