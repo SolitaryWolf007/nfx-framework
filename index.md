@@ -1,8 +1,18 @@
-## Welcome to nFX docs.
+# Welcome to nFX docs.
 
 nFX It is a framework for fivem that I started to develop with free time, therefore, many things can still change. Here is the list of functions and events and how to use them.
 
-### Server Events
+## Client Events
+
+```lua
+    -- called on the player's first spawn.
+    AddEventHandler("nFX:playerSpawned",function() end)
+    
+    -- called when the player respawns.
+    AddEventHandler("nFX:playerRespawned",function() end)
+```
+
+## Server Events
 
 ```lua
     -- called when the player is readable to connect to the server. (S->S)
@@ -41,22 +51,84 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     TriggerServerEvent("nFX:SRV:SyncFixVeh",netveh)
 ```
 
-### Client Events
+## Client Functions
 
+### _core.lua
 ```lua
-    -- called on the player's first spawn.
-    AddEventHandler("nFX:playerSpawned",function() end)
+    -- returns a table with player definitions.
+    --{ source, id, identifier, access, registration, phone }
+    nFXcli.getPlayerDef()
     
-    -- called when the player respawns.
-    AddEventHandler("nFX:playerRespawned",function() end)
+    -- triggers the ScreenFade effect.
+    -- bool: true(out)/false(in)
+    -- time: integer (ms)
+    nFXcli.ScreenFade(bool,time)
+    
+    -- function that spawns the player with the data, used internally by nFX.
+    -- should not be used by other scripts.
+    nFXcli.SpawnPlayer(data)
+```
+### gui.lua
+```lua
+    -- closes the open menu.
+    nFXcli.closeMenu()
+    
+    -- returns a table about the status of the menu.
+    --{ opened, name }
+    nFXcli.getMenuState()
+    
+    -- set a div
+    -- css: plain global css, the div class is ".div_nameofthediv"
+    -- content: html content of the div
+    nFXcli.setDiv(name,css,content)
+
+    -- set the div content
+    nFXcli.setDivContent(name,content)
+    
+    -- remove the div
+    nFXcli.removeDiv(name)
+```
+### map.lua
+```lua
+    -- teleport player.
+    -- x: positionX/vector
+    -- y: positionY/nil
+    -- z: positionZ/nil
+    nFXcli.teleport(x,y,z)
+    nFXcli.teleport(vector3(x,y,z))
+    
+    -- returns a position vector.
+    nFXcli.getPosition()
+    
+    -- set the player's heading.
+    -- h: heading
+    nFXcli.setHeading(h)
+    
+    -- returns the player's heading
+    nFXcli.getHeading()
+    
+    -- add a blip to the map, return the blip ID
+    nFXcli.addBlip(x,y,z,idtype,idcolor,text,scale,route)
+    
+    -- removes a blip by ID.
+    -- id: Blip ID
+    nFXcli.removeBlip(id)
+    
+    -- marks a point on the GPS
+    -- x: positionX
+    -- y: positionY
+    nFXcli.setGPS(x,y)
 ```
 
+## Server Functions
 
+```lua
+    
+```
 
-### Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
+## Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
 
-#### utils
-
+### utils
 
 ```lua
 -- load a lua resource file as module
@@ -74,7 +146,7 @@ async()
 ```
 WARNING: Any function making usage of `async()` require a Citizen thread if not already in one. Citizen will throw an error if you're not in one.
 
-#### Proxy
+### Proxy
 
 The proxy lib is used to call other resources functions through a proxy event.
 
@@ -108,7 +180,7 @@ The notation is `Interface.function(...)`.
 
 OBS: Good practice is to get the interface once and set it as a global, but if you want to get multiple times the same interface from the same resource, you need to specify a unique identifier (the name of the resource + a unique id for each one). 
 
-#### Tunnel
+### Tunnel
 
 The idea behind tunnels is to easily access any declared server function from any client resource, and to access any declared client function from any server resource.
 
@@ -170,7 +242,7 @@ NOTE: Tunnel and Proxy are blocking calls in the current coroutine until the val
 
 WARNING: Also remember that Citizen event handlers (used by Proxy and Tunnel) seem to not work while loading the resource, to use the Proxy at loading time, you will need to delay it with `Citizen.CreateThread` or a `SetTimeout`.
 
-#### GHMattiMySQL
+### GHMattiMySQL
 
 Used to perform operations on the database, it can be loaded only by the server.
 
