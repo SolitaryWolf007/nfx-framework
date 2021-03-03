@@ -52,7 +52,6 @@ nFX.players = {}
 --==============================================================
 RegisterServerEvent("nFX:playerConnected")
 RegisterServerEvent('nFX:playerSpawned')
-RegisterServerEvent('nFX:playerLoaded')
 RegisterServerEvent('nFX:playerRespawned')
 RegisterServerEvent("nFX:playerDropped")
 RegisterServerEvent("nFX:save")
