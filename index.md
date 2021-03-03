@@ -309,7 +309,7 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     -- source: source
     nFX.getSourceLicense(source)
 
-    -- returns the player's object, through the source. [Details Here](#player-object).
+    -- returns the player's object, through the source.
     -- source: source
     nFX.getPlayer(source)
 
@@ -450,6 +450,62 @@ nFX It is a framework for fivem that I started to develop with free time, theref
 
     -- returns a string from a phone number not saved in the database.
     nFX.generatePhoneNumber()
+```
+### Player Object
+Through the player's object, it is possible to do all the management of it, here is the list of functions of the object.
+```lua
+    local player = nFX.getPlayer(source)
+
+    -- calls an event on the client, with parameters.
+    -- eventname: name of event
+    -- ...: args
+    player.triggerEvent(eventname,...)
+
+    -- calls a function on the client, with parameters.
+    -- funcname: name of function
+    -- ...: args
+    player.CallTunnel(funcname,...)
+
+    -- returns the character id
+    player.getDataId()
+
+    -- returns the player's source.
+    player.getSource()
+
+    -- returns the player's license.
+    player.getLicense()
+
+    -- returns if the player has indicated access level.
+    -- level: nameoflevel
+    player.haveAccessLevel(level)
+
+    -- kicks the player from the server, and may pass reason.
+    -- reason: string
+    player.kick(reason)
+
+    -- set on the server if the player is dead, it is not recommended to use this.
+    -- isdead: bool
+    player.setDead(isdead)
+
+    -- returns if the player is dead.
+    player.getDead()
+
+    -- returns the player's health.
+    player.getHealth()
+
+    -- set the player's health.
+    -- val: integer
+    player.setHealth(val)
+
+    -- returns the player's armour.
+    player.getArmour()
+
+    -- set the player's armour.
+    -- val: integer
+    player.setArmour(val)
+
+    ...
+
 ```
 ## Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
 
