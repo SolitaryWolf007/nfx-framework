@@ -251,11 +251,11 @@ function nFXcli.playAnimWithObj(dict,anim,prop,flag,hand,pos1,pos2,pos3,pos4,pos
 	Citizen.InvokeNative(0xAD738C3085FE7E11,object,true,true)
 end
 
-function nFXcli.DeletarObjeto(id)
+function nFXcli.DelAnimObject(id)
 	if id and animObjs[id] then
 		nFXcli.stopAnim(true)
 		if DoesEntityExist(object) then
-			TriggerServerEvent("nFX:SRV:SyncDelObj",ObjToNet(object))
+			TriggerServerEvent("nFX:SRV:SyncDelObj",ObjToNet(animObjs[id]))
 			animObjs[id] = nil
 			animObj_ids:free(id)
 		end
