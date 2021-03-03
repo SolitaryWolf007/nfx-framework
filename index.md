@@ -71,7 +71,6 @@ async()
 -- CLIENT and SERVER globals
 -- booleans to known the side of the script
 ----
-
 ```
 WARNING: Any function making usage of `async()` require a Citizen thread if not already in one. Citizen will throw an error if you're not in one.
 
@@ -115,48 +114,48 @@ The idea behind tunnels is to easily access any declared server function from an
 
 Example of two-way resource communication
 
-* Server-side myrsc:
-```lua
-----
-local Tunnel = module("nfx", "shared/Tunnel")
-
--- build the server-side interface
-serverdef = {} -- you can add function to serverdef later in other server scripts
-Tunnel.bindInterface("myrsc",serverdef)
-
--- get the client-side access of myrsc
-client = Tunnel.getInterface("myrsc")
-
-function serverdef.test(msg)
-  print("msg "..msg.." received from "..source)
-  return 42
-end
-
--- call the function in the [source], passing parameters.
-client.clitest(source,"Hello User!")
-----
-```
-
 * Client-side myrsc:
 ```lua
 ----
-local Tunnel = module("nfx", "shared/Tunnel")
+    local Tunnel = module("nfx", "shared/Tunnel")
 
--- build the server-side interface
-clientdef = {} -- you can add function to serverdef later in other server scripts
-Tunnel.bindInterface("myrsc",clientdef)
+    -- build the server-side interface
+    clientdef = {} -- you can add function to serverdef later in other server scripts
+    Tunnel.bindInterface("myrsc",clientdef)
 
--- get the client-side access of myrsc
-server = Tunnel.getInterface("myrsc")
+    -- get the client-side access of myrsc
+    server = Tunnel.getInterface("myrsc")
 
-function clientdef.clitest(msg)
-  print("msg "..msg.." received from server.")
-  return true
-end
+    function clientdef.clitest(msg)
+      print("msg "..msg.." received from server.")
+      return true
+    end
 
--- call the function on the server, passing parameters.
-server.test("Hello Server!")
-----
+    -- call the function on the server, passing parameters.
+    server.test("Hello Server!")
+    ----
+```
+
+* Server-side myrsc:
+```lua
+    ----
+    local Tunnel = module("nfx", "shared/Tunnel")
+
+    -- build the server-side interface
+    serverdef = {} -- you can add function to serverdef later in other server scripts
+    Tunnel.bindInterface("myrsc",serverdef)
+
+    -- get the client-side access of myrsc
+    client = Tunnel.getInterface("myrsc")
+
+    function serverdef.test(msg)
+      print("msg "..msg.." received from "..source)
+      return 42
+    end
+
+    -- call the function in the [source], passing parameters.
+    client.clitest(source,"Hello User!")
+    ----
 ```
 
 This way resources can easily use other resources client/server API.
@@ -174,23 +173,23 @@ WARNING: Also remember that Citizen event handlers (used by Proxy and Tunnel) se
 Used to perform operations on the database, it can be loaded only by the server.
 
 ```lua
-----
--- load module
-MySQL = module("nfx","shared/GHMattiMySQL")
+    ----
+    -- load module
+    MySQL = module("nfx","shared/GHMattiMySQL")
 
--- prepares a query
-MySQL.prepare("queryname","SELECT * FROM users WHERE user = @user")
-MySQL.prepare("executename","UPDATE users SET age = @age WHERE user = @user")
+    -- prepares a query
+    MySQL.prepare("queryname","SELECT * FROM users WHERE user = @user")
+    MySQL.prepare("executename","UPDATE users SET age = @age WHERE user = @user")
 
--- run query
-local rows, totalrows = MySQL.query("queryname",{ user = "examaple" })
+    -- run query
+    local rows, totalrows = MySQL.query("queryname",{ user = "examaple" })
 
--- run execute
-local affected = MySQL.execute("executename",{ user = "examaple", age = 16 })
+    -- run execute
+    local affected = MySQL.execute("executename",{ user = "examaple", age = 16 })
 
--- run scalar query
-local row = MySQL.scalar("queryname",{ user = "examaple" })
-----
+    -- run scalar query
+    local row = MySQL.scalar("queryname",{ user = "examaple" })
+    ----
 ```
 
 OBS: It is not necessary to pass the parameter table during the query, as long as the query does not require any external value.
