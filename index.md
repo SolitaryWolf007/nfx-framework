@@ -202,14 +202,14 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     nFXcli.getHealth()
     
     -- set player health.
-    health: integer
+    --health: integer
     nFXcli.setHealth(health)
     
     -- returns if the player is dead.
     nFXcli.isDead()
     
     -- revive player, and set health.
-    health: integer, or nil
+    --health: integer, or nil
     nFXcli.revivePlayer(health)
     
     -- revive player, used in the prison.
@@ -219,8 +219,35 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     nFXcli.getArmour()
     
     -- set player armour.
-    armour: integer
+    --armour: integer
     nFXcli.setArmour(armour)
+```
+### vehicles.lua
+```lua
+    -- return table with vehicles loaded in the world.
+    nFXcli.getAllVehicles()
+    
+    -- returns a table with the vehicles nearby. (vehicle->dist)
+    nFXcli.getNearestVehicles(radius)
+    
+    -- returns the vehicle, or vehicle withdata.
+    -- return veh,vehnet or veh,vehnet,model,data,plate,lock,trunk,coords
+    -- radius: integer 
+    -- withdata: bool
+    nFXcli.getNearestVehicle(radius,withdata)
+    
+    -- returns the vehicle between two coordinates
+    --coordsfrom: vector3
+    --coordsto: vector3
+    nFXcli.getVehicleInDirection(coordsfrom,coordsto)
+    
+    -- spawn a vehicle.
+    -- model: model
+    -- coords: vector3
+    -- heading: integer
+    -- setin: bool, inside veh
+    -- plate: string
+    nFXcli.spawnVehicle(model,coords,heading,setin,plate) 
 ```
 
 ## Server Functions
