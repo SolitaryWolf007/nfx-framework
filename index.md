@@ -151,6 +151,7 @@ WARNING: Any function making usage of `async()` require a Citizen thread if not 
 The proxy lib is used to call other resources functions through a proxy event.
 
 * resource1.lua
+
 ```lua
 ----
 local Proxy = module("nfx", "shared/Proxy")
@@ -164,7 +165,9 @@ function Resource1.test(a,b)
 end
 ----
 ```
+
 * resource2.lua
+
 ```lua
 ----
 local Proxy = module("nfx", "shared/Proxy")
