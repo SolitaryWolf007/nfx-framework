@@ -202,14 +202,14 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     nFXcli.getHealth()
     
     -- set player health.
-    --health: integer
+    -- health: integer
     nFXcli.setHealth(health)
     
     -- returns if the player is dead.
     nFXcli.isDead()
     
     -- revive player, and set health.
-    --health: integer, or nil
+    -- health: integer, or nil
     nFXcli.revivePlayer(health)
     
     -- revive player, used in the prison.
@@ -219,7 +219,7 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     nFXcli.getArmour()
     
     -- set player armour.
-    --armour: integer
+    -- armour: integer
     nFXcli.setArmour(armour)
 ```
 ### vehicles.lua
@@ -237,8 +237,8 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     nFXcli.getNearestVehicle(radius,withdata)
     
     -- returns the vehicle between two coordinates
-    --coordsfrom: vector3
-    --coordsto: vector3
+    -- coordsfrom: vector3
+    -- coordsto: vector3
     nFXcli.getVehicleInDirection(coordsfrom,coordsto)
     
     -- spawn a vehicle.
@@ -248,6 +248,53 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     -- setin: bool, inside veh
     -- plate: string
     nFXcli.spawnVehicle(model,coords,heading,setin,plate) 
+    
+    -- ejects the player from the vehicle.
+    nFXcli.ejectVehicle()
+    
+    -- returns if the player is inside a vehicle.
+    nFXcli.isInVehicle()
+    
+    -- put player in the next vehicle.
+    -- radius: integer
+    -- seat: integer/nil
+    nFXcli.putInNearestVehicle(radius,seat)
+```
+### weapons.lua
+```lua
+    -- returns a table with the weapons obtained through the nFX methods.
+    nFXcli.getWeaponsGived()
+    
+    -- checks if the weapons in weapon are the same as those given by nFX.
+    -- weapon: table
+    nFXcli.legalWeaponsChecker(weapon)
+    
+    -- returns a table with the player's weapons.
+    nFXcli.getWeapons()
+    
+    -- replaces the player's weapons. and returns the old weapons.
+    -- weapons: table
+    nFXcli.replaceWeapons(weapons)
+    
+    -- give the player a weapon.
+    -- weapons: table
+    -- clear_before: bool - if true, clear before.
+    nFXcli.giveWeapons(weapons,clear_before)
+    
+    -- removes all weapons from the player.
+    nFXcli.clearWeapons()
+    
+    -- applies weapon customization to the player.
+    -- customs: table
+    nFXcli.GiveWeaponsCustomizations(customs)
+    
+    -- get the weapons customizations.
+    -- weap: table
+    nFXcli.GetWeaponsCustomizations(weap)
+    
+    -- seeks the components of a weapon.
+    -- weapon: string/weapon
+    nFXcli.GetWeaponComponents(weapon)
 ```
 
 ## Server Functions
