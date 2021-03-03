@@ -1,37 +1,52 @@
-## Welcome to GitHub Pages
+## Welcome to nFX docs.
 
-You can use the [editor on GitHub](https://github.com/SolitaryWolf007/nfx-framework/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+nFX It is a framework for fivem that I started to develop with free time, therefore, many things can still change. Here is the list of functions and events and how to use them.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Server Events
 
-### Markdown
+```lua
+    -- called when the player is readable to connect to the server. (S->S)
+    AddEventHandler("nFX:playerConnected",function(source,license) end)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+    -- called on the player's first spawn. (C->S)
+    AddEventHandler("nFX:playerSpawned",function() end)
 
-```markdown
-Syntax highlighted code block
+    -- called when the player respawns. (C->S)
+    AddEventHandler("nFX:playerRespawned",function() end)
 
-# Header 1
-## Header 2
-### Header 3
+    -- called when the player disconnects from the server. (S->S)
+    AddEventHandler("nFX:playerDropped",function(source,license,id) end)
 
-- Bulleted
-- List
+    -- called when the data will be saved. (S->S)
+    AddEventHandler("nFX:save",function() end)
 
-1. Numbered
-2. List
+    -- call this event to delete an object synchronously.
+    -- netobj: ObjToNet(object--[[entity]])
+    TriggerEvent("nFX:SRV:SyncDelObj",netobj)
+    TriggerServerEvent("nFX:SRV:SyncDelObj",netobj)
+    
+    -- call this event to delete a ped synchronously,
+    -- netped: PedToNet(object--[[entity]])
+    TriggerEvent("nFX:SRV:SyncDelPed",netped)
+    TriggerServerEvent("nFX:SRV:SyncDelPed",netped)
 
-**Bold** and _Italic_ and `Code` text
+    -- call this event to delete a vehicle synchronously.
+    -- netveh: VehToNet(vehicle--[[entity]])
+    TriggerEvent("nFX:SRV:SyncDelVeh",netveh)
+    TriggerServerEvent("nFX:SRV:SyncDelVeh",netveh)
 
-[Link](url) and ![Image](src)
+    -- call this event to fix a vehicle synchronously.
+    -- netveh: VehToNet(vehicle--[[entity]])
+    TriggerEvent("nFX:SRV:SyncFixVeh",netveh)
+    TriggerServerEvent("nFX:SRV:SyncFixVeh",netveh)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Client Events
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/SolitaryWolf007/nfx-framework/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```lua
+    -- called on the player's first spawn.
+    AddEventHandler("nFX:playerSpawned",function() end)
+    
+    -- called when the player respawns.
+    AddEventHandler("nFX:playerRespawned",function() end)
+```
