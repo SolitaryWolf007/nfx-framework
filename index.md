@@ -119,10 +119,88 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     -- y: positionY
     nFXcli.setGPS(x,y)
 ```
+### player.lua
+```lua
+    -- Total of drawables, return number of drawables.
+    -- part: part
+    nFXcli.getDrawables(part)
+    
+    -- Drawable textures, return number of textures.
+    -- part: part
+    -- drawable: drawable
+    nFXcli.getDrawableTextures(part,drawable)
+    
+    -- returns table with data of the player's clothes.
+    nFXcli.getClothes()
+    
+    -- set player clothes.
+    -- custom: table of customs
+    nFXcli.setClothes(custom)
+    
+    -- returns a table with the next players. (player -> radius)
+    -- radius: integer
+    nFXcli.getNearestPlayers(radius)
+    
+    -- returns the source of the next player.
+    -- radius: integer
+    nFXcli.getNearestPlayer(radius)
+     
+    -- play animation.
+    -- animations dict/name: see http://docs.ragepluginhook.net/html/62951c37-a440-478c-b389-c471230ddfc5.htm
+    -- upper: true, only upper body, false, full animation
+    -- seq: list of animations as {dict,anim_name,loops} (loops is the number of loops, default 1)
+    -- looping: if true, will infinitely loop the first element of the sequence until stopAnim is called
+    nFXcli.playAnim(upper, seq, looping)
+    
+    -- stop animation.
+    -- upper: true, stop the upper animation, false, stop full animations
+    nFXcli.stopAnim(upper)
+    
+    -- player animation with object.
+    -- return anim id (use in next function)
+    nFXcli.playAnimWithObj(dict,anim,prop,flag,hand,pos1,pos2,pos3,pos4,pos5,pos6)
+    
+    -- delete the animation object.
+    -- id: integer
+    nFXcli.DelAnimObject(id)
+    
+    -- play sound.
+    nFXcli.playSound(dict,name)
+    
+    -- play a screen effect.
+    -- name, see https://wiki.fivem.net/wiki/Screen_Effects
+    -- duration: in seconds, if -1, will play until stopScreenEffect is called
+    nFXcli.playScreenEffect(name, duration)
+    
+    -- toggle Handcuff.
+    nFXcli.toggleHandcuff()
+    
+    -- set Handcuff status.
+    -- flag: bool
+    nFXcli.setHandcuffed(flag)
+    
+    -- return handcuff status, true or false.
+    nFXcli.isHandcuffed()
+    
+    -- toogle the hood on the player.
+    nFXcli.togglePedHood()
+    
+    -- set Ped Hood status.
+    -- flag: bool
+    nFXcli.setPedHood(flag)
+    
+    -- return ped hood status, true or false.
+    nFXcli.isPedHood()
+    
+    -- blocks some player keys.
+     -- bool: true or false
+    nFXcli.LockCommands(bool)
+```
 
 ## Server Functions
 
 ```lua
+
     
 ```
 
