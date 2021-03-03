@@ -364,9 +364,72 @@ nFX It is a framework for fivem that I started to develop with free time, theref
 ```
 ### gui.lua
 ```lua
+    -- opens the menu with settings.
+    -- source: source
+    -- menudef: table with definitions
+    nFX.openMenu(source,menudef)
 
+    -- close an active menu.
+    -- source: source
+    nFX.closeMenu(source)
+
+    -- returns the input string when the menu is closed.
+    -- source: source
+    -- title: string
+    -- default_text: string
+    nFX.prompt(source,title,default_text)
+
+    -- returns a boolean when the request is completed.
+    -- source: source
+    -- text: string
+    -- time: integer/seconds
+    nFX.request(source,text,time)
 ```
+### inventory.lua
+```lua
+    -- register an item in the table.
+    -- itemid: string/item id
+    -- name: string/item name
+    -- index: string/item index
+    -- weight: float/item weight
+    -- type: string/item type
+    nFX.registerInvItem(itemid,name,index,weight,type)
 
+    -- unregister an item in the table.
+    -- itemid: string/item id
+    nFX.unregisterInvItem(itemid)
+
+    -- calculates the total weight of the inventory
+    -- inv: invetory table
+    nFX.calcInvWeight(inv)
+
+    -- returns a table with all items.
+    nFX.getInvItems()
+
+    -- returns the name of the item.
+    -- itemid: string/item id
+    nFX.getInvItemName(itemid)
+
+    -- returns the index of the item.
+    -- itemid: string/item id
+    nFX.getInvItemIndex(itemid)
+
+    -- returns the type of the item.
+    -- itemid: string/item id
+    nFX.getInvItemType(itemid)
+
+    -- returns the weight of the item.
+    -- itemid: string/item id
+    nFX.getInvItemWeight(itemid)
+
+    -- returns the table of the item.
+    -- itemid: string/item id
+    nFX.getInvItemData(itemid)
+
+    -- returns the size of the trunk.
+    -- model: vehicle/model
+    nFX.getTrunkWight(model)
+```
 ## Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
 
 ### utils
