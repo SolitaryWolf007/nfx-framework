@@ -430,6 +430,27 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     -- model: vehicle/model
     nFX.getTrunkWight(model)
 ```
+### player.lua
+```lua
+    -- returns a data table with identity data.
+    --{ name, lastname, registration, phone, age }
+    -- id: character id
+    nFX.getPlayerIdentity(id)
+
+    -- returns the character id and the license through the registration
+    -- registration: string
+    nFX.getPlayerByRegistration(registration)
+
+    -- returns a string from an RG not saved in the database.
+    nFX.generateRegistrationNumber()
+
+    -- returns the character id and the license through the phone
+    -- phone: string
+    nFX.getPlayerByPhone(phone)
+
+    -- returns a string from a phone number not saved in the database.
+    nFX.generatePhoneNumber()
+```
 ## Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
 
 ### utils
