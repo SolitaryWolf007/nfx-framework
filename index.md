@@ -115,29 +115,6 @@ The idea behind tunnels is to easily access any declared server function from an
 
 Example of two-way resource communication
 
-* Client-side myrsc:
-```lua
-----
-local Tunnel = module("nfx", "shared/Tunnel")
-
--- build the server-side interface
-clientdef = {} -- you can add function to serverdef later in other server scripts
-Tunnel.bindInterface("myrsc",clientdef)
-
--- get the client-side access of myrsc
-server = Tunnel.getInterface("myrsc")
-
-function clientdef.clitest(msg)
-  print("msg "..msg.." received from server.")
-  return true
-end
-
--- call the function on the server, passing parameters.
-server.test("Hello Server!")
-----
-```
-
-
 * Server-side myrsc:
 ```lua
 ----
@@ -157,6 +134,28 @@ end
 
 -- call the function in the [source], passing parameters.
 client.clitest(source,"Hello User!")
+----
+```
+
+* Client-side myrsc:
+```lua
+----
+local Tunnel = module("nfx", "shared/Tunnel")
+
+-- build the server-side interface
+clientdef = {} -- you can add function to serverdef later in other server scripts
+Tunnel.bindInterface("myrsc",clientdef)
+
+-- get the client-side access of myrsc
+server = Tunnel.getInterface("myrsc")
+
+function clientdef.clitest(msg)
+  print("msg "..msg.." received from server.")
+  return true
+end
+
+-- call the function on the server, passing parameters.
+server.test("Hello Server!")
 ----
 ```
 
