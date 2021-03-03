@@ -299,9 +299,72 @@ nFX It is a framework for fivem that I started to develop with free time, theref
 
 ## Server Functions
 
+### _core.lua
+```lua
+    -- returns the source's IP address.
+    -- source: source
+    nFX.getSourceIpv4(source)
+
+    -- returns the license of the source.
+    -- source: source
+    nFX.getSourceLicense(source)
+
+    -- returns the player's object, through the source. [Details Here](#player-object).
+    -- source: source
+    nFX.getPlayer(source)
+
+    -- returns a table with all players, indexed by source, with license and player id.
+    nFX.getPlayers()
+
+    -- returns a table containing the players' source.
+    nFX.getSourcesList()
+
+    -- returns a generated string.
+    -- format: string (D: Number, L: Letter)
+    nFX.generateStringNumber(format)
+
+    -- returns if the license is banned.
+    -- license: license
+    nFX.checkIsBanned(license)
+
+    -- set license as banned.
+    -- license: license
+    -- time: os.time() + seconds of ban. or -1
+    nFX.setBanned(license,time)
+
+    -- returns if the license is whitelisted.
+    -- license: license
+    nFX.checkIsWhitelisted(license)
+
+    -- set license as banned.
+    -- license: license
+    -- bool: true, whitelisted, false, not whitelisted
+    nFX.setWhitelisted(license,bool)    
+```
+### groups.lua
+```lua
+    -- returns a table with source and character id with group.
+    -- group: groupname
+    -- level: levelname
+    -- activeonly: bool, only active players
+    -- notbusy: bool, only not busy players
+    nFX.getPlayersByGroupLevel(group,level,activeonly,notbusy)
+
+    -- returns a table with source and character id with group.
+    -- group: groupname
+    -- activeonly: bool, only active players
+    -- notbusy: bool, only not busy players
+    nFX.getPlayersByGroup(group,activeonly,notbusy)
+
+    -- returns a table with source and character id with groups.
+    -- groups: table ({ "FireDepartment", { name = "EMS", level = "Paramedic" } })
+    -- activeonly: bool, only active players
+    -- notbusy: bool, only not busy players
+    nFX.getPlayersByGroups(groups,activeonly,notbusy)
+```
+### gui.lua
 ```lua
 
-    
 ```
 
 ## Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
