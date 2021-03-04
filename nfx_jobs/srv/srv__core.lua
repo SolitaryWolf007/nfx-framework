@@ -141,5 +141,181 @@ RegisterCommand('call',function(source,args,rawCMD)
     end
 end, false)
 --==============================================================
+-- PRESET
+--==============================================================
+local roupas = {
+    ["mec"] = {
+        _groups = nil,
+		[1885233650] = {                                      
+			[1] = { -1,0 },
+			[3] = { 12,0 },
+			[4] = { 39,0 },
+			[5] = { -1,0 },
+			[6] = { 24,0 },
+			[7] = { 109,0 },
+			[8] = { 89,0 },
+			[9] = { 14,0 },
+			[10] = { -1,0 },
+			[11] = { 66,0 }
+		},
+		[-1667301416] = {
+			[1] = { -1,0 },
+			[3] = { 14,0 },
+			[4] = { 38,0 },
+			[5] = { -1,0 },
+			[6] = { 24,0 },
+			[7] = { 2,0 },
+			[8] = { 56,0 },
+			[9] = { 35,0 },
+			[10] = { -1,0 },
+			[11] = { 59,0 }
+		}
+	},
+	["patient"] = {
+        _groups = nil,
+		[1885233650] = {
+			[1] = { -1,0 },
+			[3] = { 15,0 },
+			[4] = { 61,0 },
+			[5] = { -1,0 },
+			[6] = { 16,0 },
+			[7] = { -1,0 },			
+			[8] = { 15,0 },
+			[9] = { -1,0 },
+			[10] = { -1,0 },
+			[11] = { 104,0 },			
+			["p0"] = { -1,0 },
+			["p1"] = { -1,0 },
+			["p2"] = { -1,0 },
+			["p6"] = { -1,0 },
+			["p7"] = { -1,0 }
+		},
+		[-1667301416] = {
+			[1] = { -1,0 },
+			[3] = { 0,0 },
+			[4] = { 57,0 },
+			[5] = { -1,0 },
+			[6] = { 16,0 },
+			[7] = { -1,0 },		
+			[8] = { 7,0 },
+			[9] = { -1,0 },
+			[10] = { -1,0 },
+			[11] = { 105,0 },
+			["p0"] = { -1,0 },
+			["p1"] = { -1,0 },
+			["p2"] = { -1,0 },
+			["p6"] = { -1,0 },
+			["p7"] = { -1,0 }
+		}
+	},
+	["patient2"] = {
+        _groups = nil,
+		[1885233650] = {
+			[1] = { -1,0 },
+			[3] = { 4,0 },
+			[4] = { 84,9 },
+			[5] = { -1,0 },
+			[6] = { 13,0 },
+			[7] = { -1,0 },			
+			[8] = { -1,0 },
+			[9] = { -1,0 },
+			[10] = { -1,0 },
+			[11] = { 186,9 },			
+			["p0"] = { -1,0 },
+			["p1"] = { -1,0 },
+			["p2"] = { -1,0 },
+			["p6"] = { -1,0 },
+			["p7"] = { -1,0 }
+		},
+		[-1667301416] = {
+			[1] = { -1,0 },
+			[3] = { 10,0 },
+			[4] = { 86,9 },
+			[5] = { -1,0 },
+			[6] = { 12,0 },
+			[7] = { 0,0 },		
+			[8] = { 8,0 },
+			[9] = { -1,0 },
+			[10] = { -1,0 },
+			[11] = { 188,9 },
+			["p0"] = { -1,0 },
+			["p1"] = { -1,0 },
+			["p2"] = { -1,0 },
+			["p6"] = { -1,0 },
+			["p7"] = { -1,0 }
+		}
+	},
+}
+
+RegisterCommand('preset',function(source,args,rawCommand)
+	local player = nFX.getPlayer(source)
+	if player.getHealth() > 101 then
+		if not nFXcli.isHandcuffed(source) then
+            if args[1] then
+                
+                local custom = roupas[tostring(args[1])]
+
+                if custom then 
+                    if custom._groups then
+                        for i,gp in pairs(custom._groups) do
+                            if player.isInGroup(gp,true) then
+
+                                local old_clothes = nFXcli.getClothes(source)
+                                
+                                local clothes = player.getData("save_clothes")
+                                if (clothes == "") then
+                                    player.setData("save_clothes",json.encode(old_clothes))
+                                end
+                
+                                for l,w in pairs(custom[old_clothes.modelhash]) do
+                                    old_clothes[l] = w
+                                end
+                                old_clothes.modelhash = nil
+                                
+                                nFXcli._playAnim(source,true,{{"clothingshirt","try_shirt_positive_d"}},false)
+                                Citizen.Wait(2500)
+                                nFXcli._stopAnim(source,true)
+
+                                nFXcli._setClothes(source,old_clothes)
+
+                                break
+                            end
+                        end
+                    else
+
+                        local old_clothes = nFXcli.getClothes(source)
+                                
+                        local clothes = player.getData("save_clothes")
+                        if (clothes == "") then
+                            player.setData("save_clothes",json.encode(old_clothes))
+                        end
+
+                        for l,w in pairs(custom[old_clothes.modelhash]) do
+                            old_clothes[l] = w
+                        end
+                        old_clothes.modelhash = nil
+
+                        nFXcli._playAnim(source,true,{{"clothingshirt","try_shirt_positive_d"}},false)
+                        Citizen.Wait(2500)
+                        nFXcli._stopAnim(source,true)
+
+                        nFXcli._setClothes(source,old_clothes)
+
+                    end
+                end
+            else
+                local clothes = player.getData("save_clothes")
+                if (clothes ~= "") then
+                    nFXcli._playAnim(source,true,{{"clothingshirt","try_shirt_positive_d"}},false)
+                    Citizen.Wait(2500)
+                    nFXcli._stopAnim(source,true)
+                    nFXcli.setClothes(source,json.decode(clothes))
+                    player.setData("save_clothes",nil)
+                end
+            end
+		end
+	end
+end)
+--==============================================================
 -- ...
 --==============================================================

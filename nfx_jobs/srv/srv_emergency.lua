@@ -21,9 +21,9 @@ RegisterCommand('revive',function(source,args,rawCommand)
                     SetTimeout(30000,function()
                         nFXcli.revivePlayer(nsource,100)
                         nFXcli._stopAnim(source,false)
+                        nFXcli._LockCommands(source,false)
                         local reward = cfg["emergency"].revive_reward
                         player.giveMoney(math.random(reward.min,reward.max))
-                        nFXcli.LockCommands(source,false)
                     end)
                 else
                     TriggerClientEvent("Notify",source,"info",Lang["EMS_RE_INVALID"])

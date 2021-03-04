@@ -192,11 +192,11 @@ local player_customs = {}
 RegisterCommand('vclothes',function(source,args,rawCommand)
     local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["vclothes"]) then
-        local custom = nFXcli.getCustomization(source)
         if player_customs[source] then
             player_customs[source] = nil
             nFXcli._removeDiv(source,"customization")
         else 
+            local custom = nFXcli.getClothes(source)
             local content = ""
             for k,v in pairs(custom) do
                 content = content..k.." => "..json.encode(v).."<br/>" 
