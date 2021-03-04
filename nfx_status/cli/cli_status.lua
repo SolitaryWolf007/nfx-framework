@@ -46,7 +46,6 @@ local css = [[
 local identity = false
 
 RegisterCommand('nfxstatus:toggle',function()
-	print(identity)
 	if identity then
 		nFXcli.removeDiv("nfxstatus")
 		identity = false

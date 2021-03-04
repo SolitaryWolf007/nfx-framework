@@ -542,7 +542,6 @@ end
 function nFXsrv.updateClothes(tab)
     local player = nFX.getPlayer(source)
     if player and tab then
-        print("updateClothes",source)
         player.updateClothes(tab)
     end
 end
