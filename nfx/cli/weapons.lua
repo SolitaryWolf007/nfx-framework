@@ -18,7 +18,6 @@ function nFXcli.getWeaponsGived()
 end
 
 function nFXcli.legalWeaponsChecker(weapon)
-	local weapons_legal = nFXcli.getWeaponsGived()
 	local ilegal = false
 	for v, b in pairs(weapon) do
 	  	if not weapon_list[v] then
@@ -28,7 +27,7 @@ function nFXcli.legalWeaponsChecker(weapon)
 	end
 	if ilegal then
 	  nFXcli.giveWeapons(weapons_legal, true)
-	  weapon = {}
+	  weapon = weapons_legal
 	end
 	return weapon
 end
@@ -51,7 +50,7 @@ function nFXcli.getWeapons()
 			end
 		end
 	end
-	return weapons
+	return nFXcli.legalWeaponsChecker(weapons)
 end
 
 function nFXcli.replaceWeapons(weapons)

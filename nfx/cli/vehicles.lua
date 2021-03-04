@@ -126,10 +126,3 @@ function nFXcli.putInNearestVehicle(radius,seat)
 	end
 	return false
 end
-
-function nFXcli.ejectVehicle()
-	local ped = PlayerPedId()
-	if IsPedSittingInAnyVehicle(ped) then
-		TaskLeaveVehicle(ped,GetVehiclePedIsIn(ped),4160)
-	end
-end

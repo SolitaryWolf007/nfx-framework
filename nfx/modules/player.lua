@@ -64,14 +64,6 @@ function nFX.PlayerNew(src, data)
 		return obj.identifier
     end
 
-    obj.setAccess = function(level)
-        if cfg["core"].access_levels[level] then
-            obj.access = level
-            return true
-        end
-        return false
-    end
-
     obj.haveAccessLevel = function(level)
         local access = obj.access
         if access == level then
@@ -88,6 +80,18 @@ function nFX.PlayerNew(src, data)
 
     obj.kick = function(reason)
         DropPlayer(obj.source,reason or "")
+    end
+
+    obj.setData = function(key,value)
+        local data = value
+        if (type(key) ~= "string") then return end
+        if value and (type(value) ~= "string") then return end
+        obj.userdata[key] = value
+        return true
+    end
+
+    obj.getData = function(key)
+        return obj.userdata[key] or ""
     end
 
     --==============================================================
@@ -194,6 +198,18 @@ function nFX.PlayerNew(src, data)
             local money = obj.getBankMoney()
             obj.setBankMoney(money+val)
         end
+    end
+
+    
+    obj.tryBankPayment = function(val)
+		if val >= 0 then
+            local money = obj.getBankMoney()
+            if val >= 0 and money >= val then
+                obj.setBankMoney(money-val)
+                return true
+            end
+        end
+        return false
     end
 
     -- WITHDRAW
@@ -499,18 +515,6 @@ function nFX.PlayerNew(src, data)
             return inv[item]     
         end
         return 0
-    end
-
-    obj.setData = function(key,value)
-        local data = value
-        if (type(key) ~= "string") then return end
-        if value and (type(value) ~= "string") then return end
-        obj.userdata[key] = value
-        return true
-    end
-
-    obj.getData = function(key)
-        return obj.userdata[key] or ""
     end
 
     return obj
