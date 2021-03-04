@@ -55,7 +55,9 @@ RegisterCommand('nfxstatus:toggle',function()
 		for name,data in pairs(jobs) do
 			local act = Lang["PLAYER_JOBS_OUT"]
 			if data.active then act = Lang["PLAYER_JOBS_IN"] end
-			sjobs = sjobs.."<b>"..name.." - "..data.level.."</b> "..act.."<br>"
+			local bsy = Lang["PLAYER_JOBS_NBUSY"]
+			if data.busy then bsy = Lang["PLAYER_JOBS_BUSY"] end
+			sjobs = sjobs.."<b>"..name.." - "..data.level.."</b><br>"..act.." - "..bsy.."<br>"
 		end
 		if src then
 			nFXcli.setDiv("nfxstatus",css,"<center><b>"..Lang["PLAYER_TITLE"].."</b></center><b>Source:</b> "..src.." ( ID:"..pid.." )<br><b>"..Lang["PLAYER_NAME"]..":</b> "..name.." "..lastname.."<br><b>"..Lang["PLAYER_AGE"]..":</b> "..age.."<br><b>"..Lang["PLAYER_REG"]..":</b> "..reg.."<br><b>"..Lang["PLAYER_PHONE"]..":</b> "..phone.."<br><b>"..Lang["PLAYER_WALLET"]..":</b> $"..money.."<br><b>"..Lang["PLAYER_BANK"]..":</b> $"..bank.."<br><center><b>"..Lang["PLAYER_JOBS"].."</b></center>"..sjobs)
