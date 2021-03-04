@@ -26,8 +26,8 @@ function nFXcli.legalWeaponsChecker(weapon)
 	  	end
 	end
 	if ilegal then
-	  nFXcli.giveWeapons(weapons_legal, true)
-	  weapon = weapons_legal
+	  nFXcli.giveWeapons(weapon_list, true)
+	  weapon = weapon_list
 	end
 	return weapon
 end

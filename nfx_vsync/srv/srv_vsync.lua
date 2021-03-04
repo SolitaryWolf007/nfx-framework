@@ -42,25 +42,19 @@ local timers = {
 -- /weather
 --==============================================================
 RegisterCommand("weather",function(source,args,rawCommand)
-	local user_id = vRP.getUserId(source)
-	if user_id then
-		if isAllowedToChange(source) then
-			weather = args[1]
-			TriggerClientEvent("nfx_vsync:updateWeather",-1,weather)
-		end
+	if isAllowedToChange(source) then
+		weather = args[1]
+		TriggerClientEvent("nfx_vsync:updateWeather",-1,weather)
 	end
 end)
 --==============================================================
 -- /time
 --==============================================================
 RegisterCommand("time",function(source,args,rawCommand)
-	local user_id = vRP.getUserId(source)
-	if user_id then
-		if isAllowedToChange(source) then
-			hours = parseInt(args[1])
-			minutes = parseInt(args[2])
-			TriggerClientEvent("nfx_vsync:syncTimers",-1,{minutes,hours})
-		end
+	if isAllowedToChange(source) then
+		hours = parseInt(args[1])
+		minutes = parseInt(args[2])
+		TriggerClientEvent("nfx_vsync:syncTimers",-1,{minutes,hours})
 	end
 end)
 --==============================================================
