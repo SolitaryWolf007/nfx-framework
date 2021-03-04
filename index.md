@@ -1,4 +1,4 @@
-# nFX Documentation.
+# nFX Documentation
 
 nFX It is a framework for fivem that I started to develop with free time, therefore, many things can still change. Here is the list of functions and events and how to use them.
 
@@ -456,6 +456,10 @@ Through the player's object, it is possible to do all the management of it, here
 ```lua
     local player = nFX.getPlayer(source)
 
+    --==============================================================
+    -- CORE
+    --==============================================================
+
     -- calls an event on the client, with parameters.
     -- eventname: name of event
     -- ...: args
@@ -483,6 +487,10 @@ Through the player's object, it is possible to do all the management of it, here
     -- reason: string
     player.kick(reason)
 
+    --==============================================================
+    -- SURVIVAL
+    --==============================================================
+
     -- set on the server if the player is dead, it is not recommended to use this.
     -- isdead: bool
     player.setDead(isdead)
@@ -504,7 +512,100 @@ Through the player's object, it is possible to do all the management of it, here
     -- val: integer
     player.setArmour(val)
 
-    ...
+    --==============================================================
+    -- MONEY
+    --==============================================================
+
+    -- returns the player's money.
+    player.getMoney()
+
+    -- set the player's money.
+    -- val: integer
+    player.setMoney(val)
+
+    -- gives money to the player.
+    -- val: integer
+    player.giveMoney(val)
+
+    -- tries to pay with money from the player's hand. returns true if successful.
+    -- val: integer
+    player.tryPayment(val)
+
+    -- returns the player's bank money.
+    player.getBankMoney()
+
+    -- set the player's money bank.
+    -- val: integer
+    player.setBankMoney(val)
+
+    -- gives bank money to the player.
+    -- val: integer
+    player.giveBankMoney(val)
+
+    -- tries to pay with money from the player's bank. returns true if successful.
+    -- val: integer
+    player.tryBankPayment(val)
+
+    -- tries to withdraw money from the bank to the wallet. returns true if successful.
+    -- val: integer
+    player.tryWithdraw(val)
+
+    -- tries to deposit money from the wallet to the bank. returns true if successful.
+    -- val: integer
+    player.tryDeposit(val)
+
+    -- tries to make a payment with all the player's money. returns true if successful.
+    -- val: integer
+    player.tryFullPayment(val)
+
+    --==============================================================
+    -- IDENTITY 
+    --==============================================================
+
+    -- returns the player's Name. 
+    player.getName()
+
+    -- set the player's Name. returns true if successful.
+    -- name: string
+    player.setName(name)
+
+    -- returns the player's Lastname. 
+    player.getLastname()
+
+    -- set the player's Lastname. returns true if successful.
+    -- lname: string
+    player.setLastname(lname)
+
+    -- returns the player's age. 
+    player.getAge()
+
+    -- set the player's Age. returns true if successful.
+    -- age: integer
+    player.setAge(age)
+
+    -- returns the player's registration. 
+    player.getRegistration()
+
+    -- set the player's Registration. returns true if successful.
+    -- reg: string
+    player.setRegistration(reg)
+
+    -- returns the player's phone number. 
+    player.getPhoneNumber()
+
+    -- set the player's Phone Number. returns true if successful.
+    -- phon: string
+    player.setPhoneNumber(phon)
+
+    --==============================================================
+    -- GROUPS
+    --==============================================================
+
+
+
+
+    
+
 
 ```
 ## Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
