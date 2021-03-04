@@ -77,3 +77,21 @@ FiveM nFX Framework (Roleplay)
   * `item [nameid] [amount]` - Give the item to the player.
   * `changename [source]` - Opens a dialog box to change the player's[source] name.
   ### Jobs
+  * `vtuning` - Shows the level of tuning of the vehicle. (Mechanic Group)
+  * `toogle [group]` - Enter/Exit Service, indicating the [group].
+  * `tbusy [group]` - Enter/Exit Busy Mode, indicating the group.
+  * `call [name]` - Calls the groups specified in the settings by [name].
+  * `preset [name]` - Sets the player's clothing through a preset.
+  * `revive` - Revive the next player.
+  * `treatment` - Apply treatment to the next player.
+  * `repair` - Repair the next vehicle.
+  * `cone [del?]` - Adds a cone to the map. If the [del?] Argument is "del", delete the next cone.
+  * `barrier [del?]` - Adds a barrier to the map. If the [del?] Argument is "del", delete the next barrier.
+  * `prison [source]` - Opens the dialog box to enter the prison time in minutes.
+  * `pv` - Place the next player in the next vehicle.
+  * `rv` - Remove the player from the nearby vehicle.
+  * `reg [source]` - Displays the record of the next player, or the player passed in [source].
+
+  ### Weather
+  * `weather [WEATHER]` - Changes the server's climate to the one indicated.
+  * `time [hours] [min]` - Set the server time.
