@@ -54,7 +54,7 @@ RegisterCommand('nfxstatus:toggle',function()
 		local sjobs = ""
 		for name,data in pairs(jobs) do
 			
-			local act = Lang["PLAYER_JOBS_OUT"]
+			local act = Lang["PLAYER_JOBS_OUT"].."<br>"
 			if data.active then 
 				act = Lang["PLAYER_JOBS_IN"] 
 				local bsy = Lang["PLAYER_JOBS_NBUSY"]

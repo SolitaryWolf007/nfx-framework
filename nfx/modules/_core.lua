@@ -249,7 +249,7 @@ function nFXsrv.SettingPlayer()
                 local age = parseInt(nFX.prompt(src,"Age: (min. 18 | max. 90)",""))
                 if (name == "") or (name == " ") or (lname == "") or (lname == " ") then return end
                 if (age < 18) then age = 18 elseif (age > 90) then age = 90 end
-                local cb = MySQL.query("nFX/createUserData",{ license = license, name = name, lastname = lname, reg = nFX.generateRegistrationNumber(), phone = nFX.generatePhoneNumber(), age = age, money = json.encode({ money = 0, bank = 0 }), position = json.encode(cfg["player"].first_spawn_pos), status = json.encode({ health = cfg["player"].max_player_health, died = false, armour = 0 }), groups = json.encode({}), inv = json.encode({ maxweight = cfg["inventory"].default_weight, inventory = {} }), clothes = json.encode(cfg["player"].default_clothes), weapons = json.encode({ weapons = {}, customs = {} }), userdata = json.encode({}) })
+                local cb = MySQL.query("nFX/createUserData",{ license = license, name = name, lastname = lname, reg = nFX.generateRegistrationNumber(), phone = nFX.generatePhoneNumber(), age = age, money = json.encode(cfg["player"].default_money), position = json.encode(cfg["player"].first_spawn_pos), status = json.encode({ health = cfg["player"].max_player_health, died = false, armour = 0 }), groups = json.encode({}), inv = json.encode({ maxweight = cfg["inventory"].default_weight, inventory = {} }), clothes = json.encode(cfg["player"].default_clothes), weapons = json.encode({ weapons = {}, customs = {} }), userdata = json.encode({}) })
                 if cb.insertId then
                     selected = cb.insertId
                     nFX.closeMenu(src)
