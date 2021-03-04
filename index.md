@@ -494,7 +494,7 @@ Through the player's object, it is possible to do all the management of it, here
 
     -- returns string saved in the key or "".
     -- key: string
-    player.getDatakey(key)
+    player.getData(key)
     --==============================================================
     -- SURVIVAL
     --==============================================================
