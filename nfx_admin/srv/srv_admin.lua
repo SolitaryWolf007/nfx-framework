@@ -26,7 +26,16 @@ RegisterCommand("wl", function(source,args,rawCMD)
         local player = nFX.getPlayer(source)
         if player and player.haveAccessLevel(cfg["main"].cmd_access["wl"]) then
             local license = nFX.prompt(source,Lang["LICENSE"],"")
-            nFX.setWhitelisted(license, parseInt(args[1]) == 1 )
+            nFX.setWhitelisted(license,true)
+        end   
+    end 
+end, false)
+RegisterCommand("unwl", function(source,args,rawCMD)
+    if args[1] then
+        local player = nFX.getPlayer(source)
+        if player and player.haveAccessLevel(cfg["main"].cmd_access["wl"]) then
+            local license = nFX.prompt(source,Lang["LICENSE"],"")
+            nFX.setWhitelisted(license,false)
         end   
     end 
 end, false)
