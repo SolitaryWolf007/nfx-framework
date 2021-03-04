@@ -1,6 +1,6 @@
 # nfx-framework
 FiveM nFX Framework (Roleplay)
-* Documentation coming soon ..
+* https://solitarywolf007.github.io/nfx-framework/
 
 ## Installation:
   1) Create a clean installation of FX Server. ([FiveM Docs](https://docs.fivem.net/docs/server-manual/setting-up-a-server/)) (Template Coming Soon)
