@@ -487,6 +487,14 @@ Through the player's object, it is possible to do all the management of it, here
     -- reason: string
     player.kick(reason)
 
+    -- saves a value with a key to the database.
+    -- key: string
+    -- value: string
+    player.setData(key,value)
+
+    -- returns string saved in the key or "".
+    -- key: string
+    player.getDatakey(key)
     --==============================================================
     -- SURVIVAL
     --==============================================================
@@ -642,7 +650,7 @@ Through the player's object, it is possible to do all the management of it, here
     -- actv: is active
     player.setGroup(group,level,actv)
     
-    -- sremove the player's group.
+    -- remove the player's group.
     -- group: groupname
     player.removeGroup(group)
 
@@ -650,9 +658,38 @@ Through the player's object, it is possible to do all the management of it, here
     -- INVENTORY
     --==============================================================
 
-    
+    -- returns the size of the player's inventory.
+    player.getInventoryMaxWeight()
+
+    -- varies the size of the player's inventory.
+    -- var: integer, positive or negative
+    player.varyInventoryMaxWeightvar(var)
+
+    -- set the size of the player's inventory.
+    -- var: integer
+    player.setInventoryMaxWeight(var)
+
+    -- returns inventory and inventory max weight.
+    player.getInventory()
+
+    -- resets the player's inventory.
+    player.resetInventory()
+
+    -- varies the size of the player's inventory.
+    -- item: string, item id
+    -- amount: integer
+    -- ignweight: bool, ignore weight
+    player.giveInventoryItem(item,amount,ignweight)
 
 
+    -- try to take the item from the player. returns true if successful.
+    -- item: string, item id
+    -- amount: integer
+    player.getInventoryItem(item,amount)
+
+    -- returns the player's item quantity.
+    -- item: string, item id
+    player.getInventoryItemAmount(item)
 ```
 ## Shared ( created by [ImagicTheCat](https://github.com/ImagicTheCat/vRP/tree/1.0) )
 
