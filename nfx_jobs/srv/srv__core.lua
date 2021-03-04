@@ -33,6 +33,7 @@ RegisterCommand('toogle',function(source,args,rawCMD)
                 if newstatus then
                     TriggerClientEvent("Notify",source,"success","<b>"..args[1].."</b> | "..Lang["TOGGLE_ENTER"] )
                 else
+                    player.setGroupBusy(args[1],false)
                     TriggerClientEvent("Notify",source,"success","<b>"..args[1].."</b> | "..Lang["TOGGLE_EXIT"] )
                 end
             end
