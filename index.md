@@ -1,4 +1,4 @@
-# Welcome to nFX docs.
+# nFX Documentation.
 
 nFX It is a framework for fivem that I started to develop with free time, therefore, many things can still change. Here is the list of functions and events and how to use them.
 
