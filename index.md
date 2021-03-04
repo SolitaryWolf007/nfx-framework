@@ -601,8 +601,54 @@ Through the player's object, it is possible to do all the management of it, here
     -- GROUPS
     --==============================================================
 
+    -- returns a table with the player's groups.
+    player.getGroups()
 
+    -- returns true if the player is in the group.
+    -- group: group name
+    -- activeolny: only active
+    player.isInGroup(group,activeonly)
 
+    -- returns true if the player's group is active.
+    -- group: group name
+    player.isGroupActive(group)
+
+    -- set the player's Group Active. returns true if successful.
+    -- group: group name
+    -- actv: bool
+    player.setGroupActive(group,actv)
+
+    --returns true if the player has the group occupied(busy).
+    -- group: group name
+    player.isGroupBusy(group)
+
+    -- set the player's Group Occupied. returns true if successful.
+    -- group: group name
+    -- occ: bool
+    player.setGroupBusy(group,occ)
+
+    -- group: groupname
+    -- level: levelname
+    -- activeonly: bool
+    player.haveGroupLevel(group,level,activeonly)
+
+    -- returns a table with the group data. or nil.
+    -- group: groupname
+    player.getGroup(group)
+
+    -- set group on player.
+    -- group: groupname
+    -- level: levelname
+    -- actv: is active
+    player.setGroup(group,level,actv)
+    
+    -- sremove the player's group.
+    -- group: groupname
+    player.removeGroup(group)
+
+    --==============================================================
+    -- INVENTORY
+    --==============================================================
 
     
 
