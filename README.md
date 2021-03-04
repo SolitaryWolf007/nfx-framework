@@ -37,3 +37,43 @@ FiveM nFX Framework (Roleplay)
   ```
   6) Open the `nfx/nfx.sql` file in your database, and run it.
   7) Basic installation complete! Browse the `config` folders for additional settings!
+
+
+## Commands:
+  ### Basic
+  * `exit` - Recommended way to disconnect from the server, save everything and then quit the game.
+  ### Admin
+  * `wl` - Open the dialog box, paste the player's license to add the whitelist.
+  * `unwl`- Open the dialog box, paste the player's license to remove from the whitelist.
+  
+  * `ban [source]` - If the [source] is not passed, open a dialog box asking for the player's license, and then the time in hours of banning:
+    - `-1` - Permanent Ban.
+    - `0`  - Remove Ban.
+    - `1`  - Banning time in hours, number greater than or equal to 1.
+    
+  * `nc` - Toggle NoClip.
+  * `money [value]` - Gives the specified [value] of money to the player.
+  * `tpway` - Teleport to the waypoint.
+  * `tpcds` - Open the dialog box to paste the coordinates, separated by `,`.
+  * `tptome [source]` - Teleport [source] to you.
+  * `tpto [source]` - Teleport you to [source].
+  * `setgroup [source] [group] [level]` - Set the player passed by [source] in [group] and [level].
+  * `remgroup [source] [group]` - Removes the player passed by [source] from [group].
+  * `vclothes` - Displays the player's fitted clothes.
+  * `weapon [name]` - Gives the weapon[name] to the player.
+  * `cds`, `cds2`, `cds3`, `cds4` and `cds5` - Opens the dialog box and displays the formatted coordinates.
+  * `pon` - Shows players online.
+  * `kick [source]` - Open the dialog box, to inform the reason for the kick, after confirming, the player is kicked.
+  * `kickall` - Open the dialog box, to inform the reason for the kick, after confirming, all players are kicked.
+  * `god [source]` - Revive the player[source].
+  * `godall` - Revive all players online.
+  * `car [model]` - Spawn the vehicle[model].
+  * `tuning` - Tuning the current or nearby vehicle.
+  * `vhash` - Shows the hash of the current or nearby vehicle.
+  * `vinfo` - Shows details of the current or nearby vehicle.
+  * `dv` - Deletes the current or nearby vehicle.
+  * `fix`- Repair the current or nearby vehicle.
+  * `heading` - Shows the player's heading.
+  * `item [nameid] [amount]` - Give the item to the player.
+  * `changename [source]` - Opens a dialog box to change the player's[source] name.
+  ### Jobs
