@@ -8,7 +8,7 @@ FiveM nFX Framework (Roleplay)
   1) Create a clean installation of FX Server. ([FiveM Docs](https://docs.fivem.net/docs/server-manual/setting-up-a-server/)) (Template Coming Soon)
   2) Leave only the `sessionmanager` and `chat` resources in your resources folder.
   3) [Download](https://github.com/GHMatti/ghmattimysql/releases/tag/1.3.2), Install and Configure GHMattiMySQL. And remember to set the database to `nfx`.
-  4) [Download/Clone](https://github.com/SolitaryWolf007/nfx-framework), nFX files. And extract them to the resources folder.
+  4) [Download](https://github.com/SolitaryWolf007/nfx-framework), nFX files. And extract them to the resources folder.
   5) Configure your server.cfg, here is an example:
   ```cfg
       #--====================================================================================
@@ -38,6 +38,22 @@ FiveM nFX Framework (Roleplay)
   6) Open the `nfx/nfx.sql` file in your database, and run it.
   7) Basic installation complete! Browse the `config` folders for additional settings!
 
+
+## Features:
+
+  * Player identification through license.
+  * Whitelist system.
+  * Temporary or Permanent Banning System.
+  * Access Level System, for administrative functions.
+  * Simple clothing store integrated.
+  * Player Groups (Police, EMS, Mechanics), with level, and salary values.
+  * Prompts & Requests to use in developing scripts that need confirmation, and input by the user.
+  * Inventory system, items with weights, index and types.
+  * System to save the player's status, health, armor, weapons, weapon customization, position (with heading) and clothes.
+  * Monetary System.
+  * Identity System, First Name, Last Name, Age, Registration, Telephone.
+  * Custom Data Saving System.
+  * Vehicle Database, Trunk Size, Hashes, Models, Names, Classes, Manufacturers and Prices.
 
 ## Commands:
   ### Basic
