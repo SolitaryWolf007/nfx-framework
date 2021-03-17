@@ -24,7 +24,7 @@ function sFX.GetStatus()
 	local source = source
 	local player = nFX.getPlayer(source)
 	if player then
-		local pid = player.getDataId()
+		local pid = player.getPlayerId()
 		local money = player.getMoney()
 		local bank = player.getBankMoney()
 		local name = player.getName()

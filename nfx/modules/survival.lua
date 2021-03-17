@@ -34,5 +34,6 @@ function nFXsrv.onPlayerDead()
         player.setMoney(0)
         player.resetInventory()
         nFXcli.clearWeapons(source)
+        player.updateWeapons({})
     end
 end

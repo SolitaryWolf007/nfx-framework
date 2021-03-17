@@ -3,7 +3,7 @@ function nFX.PlayerNew(src, data)
     local obj = {}
 
     obj.source      =   src
-    obj.id          =   data.id
+    obj.player_id   =   data.player_id
     obj.identifier  =   data.license
     obj.access      =   data.access
 
@@ -52,8 +52,8 @@ function nFX.PlayerNew(src, data)
         return nFXcli[tunnelFunc](obj.source, ...)
     end
 
-    obj.getDataId = function()
-		return obj.id
+    obj.getPlayerId = function()
+		return obj.player_id
     end
 
     obj.getSource = function()
@@ -520,9 +520,8 @@ function nFX.PlayerNew(src, data)
     return obj
 end
 
-function nFX.PlayerSave(src, data)
-    local license = nFX.getSourceLicense(src)
-    if license then
+function nFX.PlayerSave(data)
+    if data and data.player_id then
         local money     =    json.encode({ money = data.money, bank = data.bank })   
         local position  =    json.encode(data.pos)
         local status    =    json.encode({ health = data.health, armour = data.armour, died = data.died })
@@ -531,7 +530,7 @@ function nFX.PlayerSave(src, data)
         local groups    =    json.encode(data.groups)
         local inventory =    json.encode(data.invdata)
         local userdata  =    json.encode(data.userdata)
-        MySQL.execute("nFX/PlayerSave",{ license = license, id = data.id, name = data.name, lastname = data.lastname, reg = data.reg, phone = data.phone, age = data.age, money = money, position = position, status = status, groups = groups, inventory = inventory, clothes = clothes, weapons = weapons, userdata = userdata })
+        MySQL.execute("nFX/PlayerSave",{ player_id = data.player_id, name = data.name, lastname = data.lastname, reg = data.reg, phone = data.phone, age = data.age, money = money, position = position, status = status, groups = groups, inventory = inventory, clothes = clothes, weapons = weapons, userdata = userdata })
     end
 end
 
@@ -557,12 +556,12 @@ end
 -- IDENTITY
 --==============================================================
 
-MySQL.prepare("nFX/get_player_reg","SELECT name, lastname, registration, phone, age FROM users_data WHERE id = @id")
-MySQL.prepare("nFX/get_player_byreg","SELECT id, license FROM users_data WHERE registration = @reg")
-MySQL.prepare("nFX/get_player_phone","SELECT id, license FROM users_data WHERE phone = @phone")
+MySQL.prepare("nFX/get_player_reg","SELECT name, lastname, registration, phone, age FROM users_data WHERE player_id = @player_id")
+MySQL.prepare("nFX/get_player_byreg","SELECT player_id FROM users_data WHERE registration = @reg")
+MySQL.prepare("nFX/get_player_phone","SELECT player_id FROM users_data WHERE phone = @phone")
 
-function nFX.getPlayerIdentity(id)
-	local rows = MySQL.query("nFX/get_player_reg",{ id = id })
+function nFX.getPlayerIdentity(player_id)
+	local rows = MySQL.query("nFX/get_player_reg",{ player_id = player_id })
 	if rows[1] then
 		return rows[1]
 	end
@@ -573,16 +572,16 @@ end
 function nFX.getPlayerByRegistration(registration)
 	local rows = MySQL.query("nFX/get_player_byreg",{ registration = registration or "" })
 	if #rows > 0 then
-		return rows[1].id, rows[1].license
+		return rows[1].player_id
 	end
 end
 
 function nFX.generateRegistrationNumber()
-	local id, license = nil, nil
+	local id = nil
 	local registration = ""
 	repeat
 		registration = nFX.generateStringNumber(cfg["player"].reg_format)
-		id, license = nFX.getPlayerByRegistration(registration)
+		id = nFX.getPlayerByRegistration(registration)
 	until not id
 
 	return registration
@@ -592,16 +591,16 @@ end
 function nFX.getPlayerByPhone(phone)
 	local rows = MySQL.query("nFX/get_player_phone",{ phone = phone or "" })
 	if #rows > 0 then
-		return rows[1].id, rows[1].license
+		return rows[1].player_id
 	end
 end
 
 function nFX.generatePhoneNumber()
-	local id, license = nil, nil
+	local id = nil
 	local phone = ""
 	repeat
 		phone = nFX.generateStringNumber(cfg["player"].phone_format)
-		id, license = nFX.getPlayerByRegistration(phone)
+		id = nFX.getPlayerByPhone(phone)
 	until not id
 
 	return phone

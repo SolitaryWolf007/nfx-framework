@@ -5,10 +5,10 @@ function nFX.getPlayersByGroupLevel(group,level,activeonly,notbusy)
             if data.haveGroupLevel(group,level,activeonly) then   
                 if notbusy ~= nil then
                     if notbusy and (not data.isGroupBusy(group)) then
-                        cb[src] = data.id
+                        cb[src] = data.player_id
                     end
                 else
-                    cb[src] = data.id
+                    cb[src] = data.player_id
                 end
             end
         end
@@ -22,10 +22,10 @@ function nFX.getPlayersByGroup(group,activeonly,notbusy)
             if data.isInGroup(group,activeonly) then
                 if notbusy ~= nil then
                     if notbusy and (not data.isGroupBusy(group)) then
-                        cb[src] = data.id
+                        cb[src] = data.player_id
                     end
                 else
-                    cb[src] = data.id
+                    cb[src] = data.player_id
                 end
             end
         end
@@ -41,10 +41,10 @@ function nFX.getPlayersByGroups(groups,activeonly,notbusy)
                     if data.haveGroupLevel(group.name,group.level,activeonly) then
                         if notbusy ~= nil then
                             if notbusy and (not data.isGroupBusy(group)) then
-                                cb[src] = data.id
+                                cb[src] = data.player_id
                             end
                         else
-                            cb[src] = data.id
+                            cb[src] = data.player_id
                         end
                     end            
                 end
@@ -52,10 +52,10 @@ function nFX.getPlayersByGroups(groups,activeonly,notbusy)
                 if data.isInGroup(group) then
                     if notbusy ~= nil then
                         if notbusy and (not data.isGroupBusy(group)) then
-                            cb[src] = data.id
+                            cb[src] = data.player_id
                         end
                     else
-                        cb[src] = data.id
+                        cb[src] = data.player_id
                     end
                 end
             end            

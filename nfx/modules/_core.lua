@@ -32,17 +32,16 @@ Tunnel.bindInterface("nFX-API",nFXsrv)
 --==============================================================
 MySQL.prepare("nFX/getUser","SELECT * FROM users WHERE license = @license")
 
-MySQL.prepare("nFX/getAllUserData","SELECT * FROM users_data WHERE license = @license")
-MySQL.prepare("nFX/getUserData","SELECT * FROM users_data WHERE id = @id AND license = @license")
+MySQL.prepare("nFX/getUserData","SELECT * FROM users_data WHERE player_id = @player_id")
 
 MySQL.prepare("nFX/createUser","INSERT INTO users(license,whitelisted,banned,first_login,access) VALUES(@license,@wl,@bn,@fl,@access)")
-MySQL.prepare("nFX/createUserData","INSERT INTO users_data(license,name,lastname,registration,phone,age,money,position,status,groups,inventory,clothes,weapons,userdata) VALUES(@license,@name,@lastname,@reg,@phone,@age,@money,@position,@status,@groups,@inv,@clothes,@weapons,@userdata)")
+MySQL.prepare("nFX/createUserData","INSERT INTO users_data(player_id,name,lastname,registration,phone,age,money,position,status,groups,inventory,clothes,weapons,userdata) VALUES(@player_id,@name,@lastname,@reg,@phone,@age,@money,@position,@status,@groups,@inv,@clothes,@weapons,@userdata)")
 
 MySQL.prepare("nFX/setBanned","UPDATE users SET banned = @ban WHERE license = @license")
 MySQL.prepare("nFX/setWhitelisted","UPDATE users SET whitelisted = @wl WHERE license = @license")
 MySQL.prepare("nFX/setLastLogin","UPDATE users SET ipv4 = @ip, last_login = @ll WHERE license = @license")
 
-MySQL.prepare("nFX/PlayerSave","UPDATE users_data SET name = @name, lastname = @lastname, registration = @reg, phone = @phone, age = @age, money = @money, position = @position, status = @status, groups = @groups, inventory = @inventory, clothes = @clothes, weapons = @weapons, userdata = @userdata WHERE id = @id AND license = @license")
+MySQL.prepare("nFX/PlayerSave","UPDATE users_data SET name = @name, lastname = @lastname, registration = @reg, phone = @phone, age = @age, money = @money, position = @position, status = @status, groups = @groups, inventory = @inventory, clothes = @clothes, weapons = @weapons, userdata = @userdata WHERE player_id = @player_id")
 --==============================================================
 -- DATA
 --==============================================================
@@ -65,11 +64,11 @@ AddEventHandler("playerConnecting",function(name, setKickReason,deferrals)
 
             deferrals.update(Lang["CONNECTING_GET_USER"])
             local data = MySQL.query("nFX/getUser",{ license = identifier })          
-            ::recheck::
+            ::rechecklogin::
             if (not data[1]) then
                 MySQL.execute("nFX/createUser",{ license = identifier, wl = cfg["core"].auto_whitelist, bn = 0, fl = os.date(cfg["core"].time_template), access = "citizen" })
                 data = MySQL.query("nFX/getUser",{ license = identifier })
-                goto recheck
+                goto rechecklogin
             end
             data = data[1]
 
@@ -105,8 +104,8 @@ AddEventHandler('playerDropped', function (reason)
     local src = source
     local license = nFX.getSourceLicense(src)
     if nFX.players[src] then
-        TriggerEvent("nFX:playerDropped",src,license,nFX.players[src].id)
-        nFX.PlayerSave(src,nFX.players[src])
+        TriggerEvent("nFX:playerDropped",src,nFX.players[src].player_id)
+        nFX.PlayerSave(nFX.players[src])
         nFX.players[src] = nil
     end
 end)
@@ -134,7 +133,7 @@ end
 function nFX.getPlayers()
     local cb = {}
     for src,data in pairs(nFX.players) do
-        cb[src] = { identifier = data.identifier, id = data.id }
+        cb[src] = { identifier = data.identifier, player_id = data.player_id }
     end
     return cb
 end
@@ -164,15 +163,15 @@ end
 --==================
 -- BAN SYSTEM
 --==================
-function nFX.checkIsBanned(id)
-    local data = MySQL.query("nFX/getUser",{ license = id })   
+function nFX.checkIsBanned(identifier)
+    local data = MySQL.query("nFX/getUser",{ license = identifier })   
     if data[1] then
         if (data[1].banned == -1) then
             return Lang["BANNED_NEVER"]
         elseif( data[1].banned > 0) then
             local unbanh = string.format("%.2f", ((data[1].banned - os.time())/60)/60 )
             if (tonumber(unbanh) <= 0) then
-                nFX.setBanned(id,0)
+                nFX.setBanned(identifier,0)
                 return false
             else
                 return unbanh.." "..Lang["BANNED_HOURS"]
@@ -182,10 +181,10 @@ function nFX.checkIsBanned(id)
     return false
 end
 
-function nFX.setBanned(id,time)
-    local data = MySQL.query("nFX/getUser",{ license = id })   
+function nFX.setBanned(identifier,time)
+    local data = MySQL.query("nFX/getUser",{ license = identifier })   
     if data[1] then
-        return (MySQL.execute("nFX/setBanned",{ license = id, ban = time }) > 0)
+        return (MySQL.execute("nFX/setBanned",{ license = identifier, ban = time }) > 0)
     end
     return false               
 end
@@ -193,19 +192,19 @@ end
 --==================
 -- WHITELIST SYSTEM
 --==================
-function nFX.checkIsWhitelisted(id)
-    local data = MySQL.query("nFX/getUser",{ license = id })   
+function nFX.checkIsWhitelisted(identifier)
+    local data = MySQL.query("nFX/getUser",{ license = identifier })   
     if data[1] then
         return (data[1].whitelisted == 1)
     end
     return false
 end
 
-function nFX.setWhitelisted(id,bool)
-    local data = MySQL.query("nFX/getUser",{ license = id })   
+function nFX.setWhitelisted(identifier,bool)
+    local data = MySQL.query("nFX/getUser",{ license = identifier })   
     if data[1] then
         if bool then bool = 1 else bool = 0 end
-        return (MySQL.execute("nFX/setWhitelisted",{ license = id, wl = bool }) > 0)
+        return (MySQL.execute("nFX/setWhitelisted",{ license = identifier, wl = bool }) > 0)
     end
     return false               
 end
@@ -217,7 +216,7 @@ function _savePlayers()
 	SetTimeout(cfg["core"].save_interval*1000, _savePlayers)
 	TriggerEvent("nFX:save")
 	for k,v in pairs(nFX.players) do
-        nFX.PlayerSave(k,v)
+        nFX.PlayerSave(v)
 	end
 end
 CreateThread(function()
@@ -234,67 +233,28 @@ function nFXsrv.SettingPlayer()
         DropPlayer(src,"GTA:V License Not Found")
         return
     end
+    print(license)
+    local info = MySQL.query("nFX/getUser",{ license = license })      
+    if info[1] then
+        ::recheckprofile::
+        local profile = MySQL.query("nFX/getUserData",{ player_id = info[1].player_id })
+        if (not profile[1]) then
+            MySQL.execute("nFX/createUserData",{ player_id = info[1].player_id, name = cfg["player"].default_name, lastname = cfg["player"].default_lname, reg = nFX.generateRegistrationNumber(), phone = nFX.generatePhoneNumber(), age = age, money = json.encode(cfg["player"].default_money), position = json.encode(cfg["player"].first_spawn_pos), status = json.encode({ health = cfg["player"].max_player_health, died = false, armour = 0 }), groups = json.encode({}), inv = json.encode({ maxweight = cfg["inventory"].default_weight, inventory = {} }), clothes = json.encode(cfg["player"].default_clothes), weapons = json.encode({ weapons = {}, customs = {} }), userdata = json.encode({}) })
+            goto recheckprofile
+        end        
 
-    local menu, selected = {}, nil
-
-    local profiles = MySQL.query("nFX/getAllUserData",{ license = license })
-
-    local menu = { name = Lang["LOGIN_PROFILES"] }
-    
-    menu[Lang["LOGIN_NEW"]] = { 
-        function(player, choice, next)
-            if (next == 0) then
-                local name = nFX.prompt(src,"Name:","")
-                local lname = nFX.prompt(src,"LastName:","")
-                local age = parseInt(nFX.prompt(src,"Age: (min. 18 | max. 90)",""))
-                if (name == "") or (name == " ") or (lname == "") or (lname == " ") then return end
-                if (age < 18) then age = 18 elseif (age > 90) then age = 90 end
-                local cb = MySQL.query("nFX/createUserData",{ license = license, name = name, lastname = lname, reg = nFX.generateRegistrationNumber(), phone = nFX.generatePhoneNumber(), age = age, money = json.encode(cfg["player"].default_money), position = json.encode(cfg["player"].first_spawn_pos), status = json.encode({ health = cfg["player"].max_player_health, died = false, armour = 0 }), groups = json.encode({}), inv = json.encode({ maxweight = cfg["inventory"].default_weight, inventory = {} }), clothes = json.encode(cfg["player"].default_clothes), weapons = json.encode({ weapons = {}, customs = {} }), userdata = json.encode({}) })
-                if cb.insertId then
-                    selected = cb.insertId
-                    nFX.closeMenu(src)
-                end
-            end
-        end,Lang["LOGIN_NEW_TXT"]
-    }
-
-    for i,info in pairs(profiles) do
-        menu["ID: "..info.id] = { 
-            function(player, choice, next)
-                if (next == 0) then
-                    selected = info.id
-                    nFX.closeMenu(src)
-                end
-            end,"<b>"..Lang["LOGIN_NAME"].."</b> "..info.name.." "..info.lastname.."<br><b>"..Lang["LOGIN_REG"].."</b> "..info.registration
-        }
-    end
-
-    menu.onclose = function()
-        if (not selected) then
-            nFX.openMenu(src,menu)
+        if (not info[1]) or (not profile[1]) then
+            DropPlayer(src,"nFX profile Not Found")
+            return
         end
+
+        profile[1].license = info[1].license
+        profile[1].access = info[1].access
+
+        local player = nFX.PlayerNew(src, profile[1])
+        nFX.players[src] = player
+        nFXcli._SpawnPlayer(src,player)
     end
- 
-    Wait(5000) -- wait tunnel delay
-    nFX.openMenu(src,menu)
-
-    while (not selected) do
-        Wait(100)
-    end
-
-    local info = MySQL.query("nFX/getUser",{ license = license })
-    local data = MySQL.query("nFX/getUserData",{ license = license, id = selected })
-    if (not info[1]) or (not data[1]) then
-        DropPlayer(src,"nFX profile Not Found")
-        return
-    end
-
-    data[1].license = info[1].license
-    data[1].access = info[1].access
-
-    local player = nFX.PlayerNew(src, data[1])
-    nFX.players[src] = player
-    nFXcli._SpawnPlayer(src,player)
 end
 
 --==============================================================

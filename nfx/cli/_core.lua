@@ -127,7 +127,7 @@ function nFXcli.SpawnPlayer(data)
 		end
 
 		player.source = data.source
-		player.id = data.id
+		player.player_id = data.player_id
 		player.identifier = data.identifier
 		player.access = data.access
 		player.registration = data.reg

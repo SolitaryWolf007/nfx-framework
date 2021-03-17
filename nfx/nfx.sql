@@ -9,6 +9,7 @@ CREATE DATABASE IF NOT EXISTS `nfx` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `nfx`;
 
 CREATE TABLE IF NOT EXISTS `users` (
+  `player_id` int(11) NOT NULL AUTO_INCREMENT,
   `license` varchar(150) NOT NULL,
   `whitelisted` int(2) DEFAULT 0,
   `banned` int(20) DEFAULT 0,
@@ -16,12 +17,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` varchar(50) DEFAULT NULL,
   `ipv4` varchar(50) DEFAULT NULL,
   `access` varchar(50) DEFAULT 'citizen',
-  PRIMARY KEY (`license`) USING BTREE
+  PRIMARY KEY (`player_id`,`license`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `users_data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `license` varchar(150) NOT NULL,
+  `player_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `lastname` varchar(50) DEFAULT NULL,
   `registration` varchar(50) DEFAULT NULL,
@@ -35,8 +35,7 @@ CREATE TABLE IF NOT EXISTS `users_data` (
   `clothes` text DEFAULT NULL,
   `weapons` text DEFAULT NULL,
   `userdata` mediumtext DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `license` (`license`)
+  PRIMARY KEY (`player_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
