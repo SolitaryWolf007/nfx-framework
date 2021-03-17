@@ -31,6 +31,7 @@ Tunnel.bindInterface("nFX-API",nFXsrv)
 -- MYSQL PREPARES
 --==============================================================
 MySQL.prepare("nFX/getUser","SELECT * FROM users WHERE license = @license")
+MySQL.prepare("nFX/getLicenseByID","SELECT license FROM users WHERE player_id = @player_id")
 
 MySQL.prepare("nFX/getUserData","SELECT * FROM users_data WHERE player_id = @player_id")
 
@@ -127,10 +128,9 @@ function nFX.getSourceLicense(src)
 end
 
 function nFX.getLicenseById(player_id)
-    for src,data in pairs(nFX.players) do
-        if (player_id == data.player_id) then
-            return data.identifier
-        end
+    local res = MySQL.query("nFX/getLicenseByID",{ player_id = player_id or 0 })
+    if (#res > 0) then
+        return res[1].player_id
     end
 end
 
@@ -241,7 +241,6 @@ function nFXsrv.SettingPlayer()
         DropPlayer(src,"GTA:V License Not Found")
         return
     end
-    print(license)
     local info = MySQL.query("nFX/getUser",{ license = license })      
     if info[1] then
         ::recheckprofile::
