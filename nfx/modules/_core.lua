@@ -130,7 +130,7 @@ end
 function nFX.getLicenseById(player_id)
     local res = MySQL.query("nFX/getLicenseByID",{ player_id = player_id or 0 })
     if (#res > 0) then
-        return res[1].player_id
+        return res[1].license
     end
 end
 
