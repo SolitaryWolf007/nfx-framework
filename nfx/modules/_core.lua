@@ -126,6 +126,14 @@ function nFX.getSourceLicense(src)
     end
 end
 
+function nFX.getLicenseById(player_id)
+    for src,data in pairs(nFX.players) do
+        if (player_id == data.player_id) then
+            return data.identifier
+        end
+    end
+end
+
 function nFX.getPlayer(src)
     return nFX.players[src]
 end
