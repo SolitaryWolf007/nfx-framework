@@ -30,10 +30,8 @@ FiveM nFX Framework (Roleplay)
       ensure nfx
       ensure nfx_admin
       ensure nfx_jobs
-      ensure nfx_notify
-      ensure nfx_progressbar
+      ensure nfx_nui
       ensure nfx_status
-      ensure nfx_vsync
   ```
   6) Open the `nfx/nfx.sql` file in your database, and run it.
   7) Basic installation complete! Browse the `config` folders for additional settings!
@@ -59,10 +57,10 @@ FiveM nFX Framework (Roleplay)
   ### Basic
   * `exit` - Recommended way to disconnect from the server, save everything and then quit the game.
   ### Admin
-  * `wl` - Open the dialog box, paste the player's license to add the whitelist.
-  * `unwl`- Open the dialog box, paste the player's license to remove from the whitelist.
+  * `wl [id]` - Open the dialog box, paste the player's license to add the whitelist.
+  * `unwl [id]`- Open the dialog box, paste the player's license to remove from the whitelist.
   
-  * `ban [source]` - If the [source] is not passed, open a dialog box asking for the player's license, and then the time in hours of banning:
+  * `ban [id]` - If the [source] is not passed, open a dialog box asking for the player's license, and then the time in hours of banning:
     - `-1` - Permanent Ban.
     - `0`  - Remove Ban.
     - `1`  - Banning time in hours, number greater than or equal to 1.
@@ -71,17 +69,17 @@ FiveM nFX Framework (Roleplay)
   * `money [value]` - Gives the specified [value] of money to the player.
   * `tpway` - Teleport to the waypoint.
   * `tpcds` - Open the dialog box to paste the coordinates, separated by `,`.
-  * `tptome [source]` - Teleport [source] to you.
-  * `tpto [source]` - Teleport you to [source].
-  * `setgroup [source] [group] [level]` - Set the player passed by [source] in [group] and [level].
-  * `remgroup [source] [group]` - Removes the player passed by [source] from [group].
+  * `tptome [id]` - Teleport [source] to you.
+  * `tpto [id][id]` - Teleport you to [source].
+  * `setgroup [id] [group] [level]` - Set the player passed by [source] in [group] and [level].
+  * `remgroup [id] [group]` - Removes the player passed by [source] from [group].
   * `vclothes` - Displays the player's fitted clothes.
   * `weapon [name]` - Gives the weapon[name] to the player.
   * `cds`, `cds2`, `cds3`, `cds4` and `cds5` - Opens the dialog box and displays the formatted coordinates.
   * `pon` - Shows players online.
-  * `kick [source]` - Open the dialog box, to inform the reason for the kick, after confirming, the player is kicked.
+  * `kick [id]` - Open the dialog box, to inform the reason for the kick, after confirming, the player is kicked.
   * `kickall` - Open the dialog box, to inform the reason for the kick, after confirming, all players are kicked.
-  * `god [source]` - Revive the player[source].
+  * `god [id]` - Revive the player[source].
   * `godall` - Revive all players online.
   * `car [model]` - Spawn the vehicle[model].
   * `tuning` - Tuning the current or nearby vehicle.
@@ -91,7 +89,7 @@ FiveM nFX Framework (Roleplay)
   * `fix`- Repair the current or nearby vehicle.
   * `heading` - Shows the player's heading.
   * `item [nameid] [amount]` - Give the item to the player.
-  * `changename [source]` - Opens a dialog box to change the player's[source] name.
+  * `changename [id]` - Opens a dialog box to change the player's[source] name.
   ### Jobs
   * `vtuning` - Shows the level of tuning of the vehicle. (Mechanic Group)
   * `toogle [group]` - Enter/Exit Service, indicating the [group].
@@ -103,10 +101,10 @@ FiveM nFX Framework (Roleplay)
   * `repair` - Repair the next vehicle.
   * `cone [del?]` - Adds a cone to the map. If the [del?] Argument is "del", delete the next cone.
   * `barrier [del?]` - Adds a barrier to the map. If the [del?] Argument is "del", delete the next barrier.
-  * `prison [source]` - Opens the dialog box to enter the prison time in minutes.
+  * `prison [id]` - Opens the dialog box to enter the prison time in minutes.
   * `pv` - Place the next player in the next vehicle.
   * `rv` - Remove the player from the nearby vehicle.
-  * `reg [source]` - Displays the record of the next player, or the player passed in [source].
+  * `reg [id]` - Displays the record of the next player, or the player passed in [source].
 
   ### Weather
   * `weather [WEATHER]` - Changes the server's climate to the one indicated.
