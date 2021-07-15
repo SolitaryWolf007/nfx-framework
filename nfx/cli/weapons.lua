@@ -48,6 +48,7 @@ function nFXcli.getWeapons()
 			else
 				weapon.ammo = 0
 			end
+			weapon.custom = nFXcli.GetWeaponCustom(hash)
 		end
 	end
 	return nFXcli.legalWeaponsChecker(weapons)
@@ -70,6 +71,9 @@ function nFXcli.giveWeapons(weapons,clear_before)
 		local hash = GetHashKey(k)
 		local ammo = weapon.ammo or 0
 		GiveWeaponToPed(ped,hash,ammo,false)
+		if weapon.custom then
+			nFXcli.GiveWeaponCustom(hash,weapon.custom)
+		end
 		weapon_list[k] = weapon
 	end
 end
@@ -82,49 +86,31 @@ end
 --==============================================================
 -- WEAPONS CUSTOMS
 --==============================================================
-function nFXcli.GiveWeaponsCustomizations(customs)
+function nFXcli.GiveWeaponCustom(weapon,custom)
     local ped = PlayerPedId()
-
-    if customs then
-        for weapon,data in pairs(customs) do   
-            if DoesPlayerOwnWeapon(weapon) then   
-                
-                SetPedWeaponTintIndex(ped,weapon,data.tint)
-                for i,attach in ipairs(data.attachments) do
-                    GiveWeaponComponentToPed(ped, weapon, attach.model)
-                end
-
-            end     
-        end
+    if custom then
+		if DoesPlayerOwnWeapon(weapon) then   
+			SetPedWeaponTintIndex(ped,weapon,custom.tint)
+			for i,attach in ipairs(custom.attachments) do
+				GiveWeaponComponentToPed(ped, weapon, attach)
+			end
+		end     
     end   
-
 end
 
-function nFXcli.GetWeaponsCustomizations(weap)
-    local customs = {}
+function nFXcli.GetWeaponCustom(weapon)
 	local ped = PlayerPedId()
-	local weapons = weap
-	if (not weapons) then
-		weapons = nFXcli.getWeapons()
-	end
-    for weapon,_ in pairs(weapons) do
-        if DoesPlayerOwnWeapon(weapon) then
-            customs[weapon] = {
-                tint = GetPedWeaponTintIndex(ped, weapon),
-                attachments = nFXcli.GetWeaponComponents(weapon)
-            }
-        end
-    end
-    return customs
+	return {
+		tint = GetPedWeaponTintIndex(ped, weapon),
+		attachments = nFXcli.GetWeaponComponents(weapon)
+	}
 end
 
 function nFXcli.GetWeaponComponents(weapon)
     local r = {}
     for _,attach in ipairs(cfg["weapons"].weapon_components) do
         if DoesPlayerWeaponHaveComponent(weapon, attach[1]) then
-            r[#r+1] = {  
-                model = attach[1]
-            }
+            r[#r+1] = attach[1]
         end
     end
     return r

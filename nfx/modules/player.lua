@@ -4,7 +4,6 @@ function nFX.PlayerNew(src, data)
 
     obj.source      =   src
     obj.player_id   =   data.player_id
-    obj.identifier  =   data.license
     obj.access      =   data.access
 
     obj.name        =   data.name
@@ -14,9 +13,8 @@ function nFX.PlayerNew(src, data)
     obj.phone       =   data.phone
     obj.pos         =   json.decode(data.position)    
     
-    local money_data =   json.decode(data.money)
-    obj.money       =   money_data.money
-    obj.bank        =   money_data.bank
+    obj.money       =   data.money
+    obj.bank        =   data.bank
 
     local status    =   json.decode(data.status)
     obj.health      =   status.health
@@ -58,10 +56,6 @@ function nFX.PlayerNew(src, data)
 
     obj.getSource = function()
 		return obj.source
-    end
-
-    obj.getLicense = function()
-		return obj.identifier
     end
 
     obj.haveAccessLevel = function(level)
@@ -322,10 +316,6 @@ function nFX.PlayerNew(src, data)
         obj.weapons = tab
     end
 
-    obj.updateWeaponsCustoms = function(tab)
-        obj.w_customs = tab
-    end
-
     --==============================================================
     -- GROUPS
     --==============================================================
@@ -521,19 +511,30 @@ function nFX.PlayerNew(src, data)
 end
 
 function nFX.PlayerSave(data)
-    if data and data.player_id then
-        local money     =    json.encode({ money = data.money, bank = data.bank })   
+    if data and data.player_id then 
         local position  =    json.encode(data.pos)
         local status    =    json.encode({ health = data.health, armour = data.armour, died = data.died })
         local clothes   =    json.encode(data.clothes)
-        local weapons   =    json.encode({ weapons = data.weapons, customs = data.w_customs })
+        local weapons   =    json.encode(data.weapons)
         local groups    =    json.encode(data.groups)
         local inventory =    json.encode(data.invdata)
         local userdata  =    json.encode(data.userdata)
-        MySQL.execute("nFX/PlayerSave",{ player_id = data.player_id, name = data.name, lastname = data.lastname, reg = data.reg, phone = data.phone, age = data.age, money = money, position = position, status = status, groups = groups, inventory = inventory, clothes = clothes, weapons = weapons, userdata = userdata })
+        MySQL.execute("nFX/PlayerSave",{ player_id = data.player_id, name = data.name, lastname = data.lastname, reg = data.reg, phone = data.phone, age = data.age, money = data.money, bank = data.bank, position = position, status = status, groups = groups, inventory = inventory, clothes = clothes, weapons = weapons, userdata = userdata })
     end
 end
-
+--==================
+-- SAVE THREAD
+--==================
+function _savePlayers()
+	SetTimeout(cfg["core"].save_interval*1000, _savePlayers)
+	TriggerEvent("nFX:save")
+	for k,v in pairs(nFX.players) do
+        nFX.PlayerSave(v)
+	end
+end
+CreateThread(function()
+	_savePlayers()
+end)
 --==============================================================
 -- CLOTHES
 --==============================================================
@@ -546,19 +547,12 @@ function nFXsrv.updateClothes(tab)
 end
 
 --==============================================================
--- PLAYERS
---==============================================================
-function nFXsrv.getSourcesList(tb)
-    return nFX.getSourcesList()
-end
-
---==============================================================
 -- IDENTITY
 --==============================================================
 
-MySQL.prepare("nFX/get_player_reg","SELECT name, lastname, registration, phone, age FROM users_data WHERE player_id = @player_id")
-MySQL.prepare("nFX/get_player_byreg","SELECT player_id FROM users_data WHERE registration = @reg")
-MySQL.prepare("nFX/get_player_phone","SELECT player_id FROM users_data WHERE phone = @phone")
+MySQL.prepare("nFX/get_player_reg","SELECT name, lastname, registration, phone, age FROM nfx_users_data WHERE player_id = @player_id")
+MySQL.prepare("nFX/get_player_byreg","SELECT player_id FROM nfx_users_data WHERE registration = @reg")
+MySQL.prepare("nFX/get_player_phone","SELECT player_id FROM nfx_users_data WHERE phone = @phone")
 
 function nFX.getPlayerIdentity(player_id)
 	local rows = MySQL.query("nFX/get_player_reg",{ player_id = player_id })
@@ -583,7 +577,6 @@ function nFX.generateRegistrationNumber()
 		registration = nFX.generateStringNumber(cfg["player"].reg_format)
 		id = nFX.getPlayerByRegistration(registration)
 	until not id
-
 	return registration
 end
 
@@ -602,6 +595,5 @@ function nFX.generatePhoneNumber()
 		phone = nFX.generateStringNumber(cfg["player"].phone_format)
 		id = nFX.getPlayerByPhone(phone)
 	until not id
-
 	return phone
 end

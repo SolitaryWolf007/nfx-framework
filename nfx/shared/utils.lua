@@ -14,33 +14,6 @@ function table.maxn(t)
   return max
 end
 
-function dataequals(one, two)
-  local ok = true
-  for k,v in pairs(one) do
-    if (not two[k])  then
-      ok = false
-    elseif type(v) == "table" and two[k] and type(two[k]) == "table" then
-      if (not dataequals(v, two[k])) then
-        ok = false
-      end
-    elseif not (two[k] == v) then
-      ok = false
-    end
-  end
-  for k,v in pairs(two) do
-    if (not one[k]) then
-      ok = false
-    elseif type(v) == "table" and one[k] and type(one[k]) == "table" then
-      if (not dataequals(v, one[k])) then
-        ok = false
-      end
-    elseif not (one[k] == v) then
-      ok = false
-    end
-  end
-  return ok
-end
-
 local modules = {}
 -- load a lua resource file as module
 -- rsc: resource name

@@ -122,5 +122,4 @@ if cfg["clothingstore"].active then
     AddEventHandler("nFX:playerSpawned",function()
         nFXcli.initClothesShop(source,cfg["clothingstore"].skinshops)
     end)
-
 end

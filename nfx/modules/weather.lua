@@ -1,19 +1,9 @@
 --==============================================================
--- MODULES
---==============================================================
-local Tunnel = module("nfx","shared/Tunnel")
-local Proxy = module("nfx","shared/Proxy")
---==============================================================
--- nFX
---==============================================================
-nFX = Proxy.getInterface("nFX")
-nFXcli = Tunnel.getInterface("nFX")
---==============================================================
 -- VARS
 --==============================================================
 local hours = 09
 local minutes = 00
-local weather = 0
+local weather = "EXTRASUNNY"
 
 function isAllowedToChange(source)
     if source == 0 then
@@ -29,22 +19,22 @@ end
 -- TIMERS
 --==============================================================
 local timers = {
-	[1] = { "EXTRASUNNY",240 },
-	[2] = { "RAIN",12 },
-	[3] = { "THUNDER",3 },
-	[4] = { "CLEAR",240 },
-	[5] = { "SNOW",2 },
-	[6] = { "BLIZZARD",1 },
-	[7] = { "XMAS",10 },
-	[8] = { "SNOW",2 },
+	["EXTRASUNNY"] = { time = 240 },
+	["RAIN"] = { time = 3 },
+	["THUNDER"] = { time = 6 },
+	["RAIN"] = { time = 6 },
+	["BLIZZARD"] = { time = 1 },
+	["CLEAR"] = { time = 60 },
 }
 --==============================================================
 -- /weather
 --==============================================================
 RegisterCommand("weather",function(source,args,rawCommand)
 	if isAllowedToChange(source) then
-		weather = args[1]
-		TriggerClientEvent("nfx_vsync:updateWeather",-1,weather)
+		if args[1] and timers[args[1]] then
+			weather = args[1]
+			TriggerClientEvent("nfx:weather:updateWeather",-1,weather)
+		end
 	end
 end)
 --==============================================================
@@ -54,15 +44,15 @@ RegisterCommand("time",function(source,args,rawCommand)
 	if isAllowedToChange(source) then
 		hours = parseInt(args[1])
 		minutes = parseInt(args[2])
-		TriggerClientEvent("nfx_vsync:syncTimers",-1,{minutes,hours})
+		TriggerClientEvent("nfx:weather:syncTimers",-1,{minutes,hours})
 	end
 end)
 --==============================================================
 -- REQUESTSYNC
 --==============================================================
-RegisterServerEvent("nfx_vsync:requestSync")
-AddEventHandler("nfx_vsync:requestSync",function()
-	TriggerClientEvent("nfx_vsync:updateWeather",-1,timers[weather][1])
+RegisterServerEvent("nfx:weather:requestSync")
+AddEventHandler("nfx:weather:requestSync",function()
+	TriggerClientEvent("nfx:weather:updateWeather",-1,weather)
 end)
 --==============================================================
 -- UPDATECLOCK
@@ -78,7 +68,7 @@ Citizen.CreateThread(function()
 				hours = 0
 			end
 		end
-		TriggerClientEvent("nfx_vsync:syncTimers",-1,{minutes,hours})
+		TriggerClientEvent("nfx:weather:syncTimers",-1,{minutes,hours})
 	end
 end)
 --==============================================================
@@ -86,11 +76,10 @@ end)
 --==============================================================
 Citizen.CreateThread(function()
 	while true do
-		weather = weather + 1
-		if weather > #timers then
-			weather = 1
+		for wt,data in pairs(timers) do
+			weather = wt
+			TriggerClientEvent("nfx:weather:updateWeather",-1,weather)
+			Citizen.Wait(data.time*60000)
 		end
-		TriggerClientEvent("nfx_vsync:updateWeather",-1,timers[weather][1])
-		Citizen.Wait(timers[weather][2]*60000)
 	end
 end)

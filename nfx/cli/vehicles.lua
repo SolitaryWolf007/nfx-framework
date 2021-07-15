@@ -2,20 +2,7 @@
 -- ALL VEHICLE ENTITYES
 --==============================================================
 function nFXcli.getAllVehicles()
-	local vehs = {}
-	local it, veh = FindFirstVehicle()
-	if veh then
-		table.insert(vehs,veh)
-	end
-	local ok
-	repeat
-		ok,veh = FindNextVehicle(it)
-		if ok and veh then
-			table.insert(vehs,veh)
-		end
-	until not ok
-		EndFindVehicle(it)
-	return vehs
+	return GetGamePool("CVehicle")
 end
 --==============================================================
 -- NEAREST VEHICLES

@@ -109,7 +109,7 @@ function nFXsrv.requestResult(id,ok)
 	end
 end
 
-AddEventHandler("nFX:playerDropped",function(source,license)
+AddEventHandler("nFX:playerDropped",function(source,player_id,reason)
 	local id = rclient_menus[source]
 	if id then
 		local menu = client_menus[id]

@@ -1,17 +1,10 @@
 --==============================================================
 -- VARS
 --==============================================================
-local hora = 09
-local minuto = 00
+local hour = 09
+local minute = 00
 local currentweather = "EXTRASUNNY"
 local lastWeather = currentweather
---==============================================================
--- UPDATEWEATHER
---==============================================================
-RegisterNetEvent("nfx_vsync:updateWeather")
-AddEventHandler("nfx_vsync:updateWeather",function(NewWeather)
-	currentweather = NewWeather
-end)
 --==============================================================
 -- FUNCTIONWEATHER
 --==============================================================
@@ -38,25 +31,32 @@ Citizen.CreateThread(function()
 	end
 end)
 --==============================================================
--- PLAYERSPAWNED
---==============================================================
-AddEventHandler("nFX:playerSpawned",function()
-	TriggerServerEvent("nfx_vsync:requestSync")
-end)
---==============================================================
--- SYNCTIMERS
---==============================================================
-RegisterNetEvent("nfx_vsync:syncTimers")
-AddEventHandler("nfx_vsync:syncTimers",function(timer)
-	hora = timer[2]
-	minuto = timer[1]
-end)
---==============================================================
 -- NETWORKCLOCK
 --==============================================================
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
-		NetworkOverrideClockTime(hora,minuto,00)
+		NetworkOverrideClockTime(hour,minute,00)
 	end
+end)
+--==============================================================
+-- PLAYERSPAWNED
+--==============================================================
+AddEventHandler("nFX:playerSpawned",function()
+	TriggerServerEvent("nfx:weather:requestSync")
+end)
+--==============================================================
+-- UPDATEWEATHER
+--==============================================================
+RegisterNetEvent("nfx:weather:updateWeather")
+AddEventHandler("nfx:weather:updateWeather",function(nweather)
+	currentweather = nweather
+end)
+--==============================================================
+-- SYNCTIMERS
+--==============================================================
+RegisterNetEvent("nfx:weather:syncTimers")
+AddEventHandler("nfx:weather:syncTimers",function(timer)
+	hour = timer[2]
+	minute = timer[1]
 end)

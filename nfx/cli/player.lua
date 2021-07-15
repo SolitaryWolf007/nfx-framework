@@ -105,7 +105,6 @@ end
 --==============================================================
 function nFXcli.getNearestPlayers(radius)
 	local r = {}
-	local ped = GetPlayerPed(i)
 	local spid = GetPlayerServerId(PlayerId())
 	
 	local pCDS = nFXcli.getPosition()
@@ -264,8 +263,8 @@ function nFXcli.DelAnimObject(id)
 		for idx,obj in ipairs(animObjs) do
 			if DoesEntityExist(obj) then
 				TriggerServerEvent("nFX:SRV:SyncDelObj",ObjToNet(obj))
-				animObjs[id] = nil
-				animObj_ids:free(id)
+				animObjs[idx] = nil
+				animObj_ids:free(idx)
 			end
 		end
 	end

@@ -108,8 +108,8 @@ function sPOLICE.PlayerShooting()
 		if (not player.haveGroupLevel("Police","Recruit")) then
 			local cops = nFX.getPlayersByGroupLevel("Police","Recruit",true)
             local coords = nFXcli.getPosition(source)
-            for osrc,dataids in pairs(cops) do
-                cPOLICE.AddShotBlip(osrc,coords,3000.00,source)
+            for src,id in pairs(cops) do
+                cPOLICE.AddShotBlip(src,coords,3000.00,source)
 			end
 		end
 	end
@@ -169,7 +169,7 @@ AddEventHandler("nFX:playerSpawned",function()
 			if time == -1 then
 				return
 			end
-			if time > 0 then
+			if time >= 0 then
                 cPOLICE.setPrisoner(source,true)
                 nFXcli.teleport(source,cfg["police"].prison_coords)
                 TriggerClientEvent("Notify",source, (Lang["POLICE_PRISON_RUNNING"]):format(time) )
@@ -187,7 +187,7 @@ RegisterCommand('pv',function(source,args,rawCommand)
         if player.haveAccessLevel("moderator") or player.haveGroupLevel("Police","Recruit",true) then
             local nplayer = nFXcli.getNearestPlayer(source,5.0)
             if nplayer then
-                nFXcli.putInNearestVehicle(nplayer,5.0)
+                nFXcli.putInNearestVehicle(nplayer,2)
             end
         end
     end
@@ -214,20 +214,20 @@ RegisterCommand('reg',function(source,args,rawCommand)
     if player then
         if player.haveAccessLevel("suport") or player.haveGroupLevel("Police","Recruit",true) then
             if args[1] then
-                local tsource = parseInt(args[1])
-                local tplayer = nFX.getPlayer(tsource)
+                local tid = parseInt(args[1])
+                local tplayer = nFX.getPlayerById(tid)
                 if (not tplayer) then
-                    TriggerClientEvent("Notify",source,"warn", (Lang["POLICE_REG_NOTFOUND"]):format(tsource) )
+                    TriggerClientEvent("Notify",source,"warn", (Lang["POLICE_REG_NOTFOUND"]):format(tid) )
                     return
                 end
-                nFXcli.setDiv(source,"polreg",cfg["police"].regcss,"<center><b>"..Lang["REG_TITLE"].."</b></center><b>Source:</b> "..tsource.."<br><b>"..Lang["PLAYER_NAME"]..":</b> "..tplayer.getName().." "..tplayer.getLastname().."<br><b>"..Lang["PLAYER_AGE"]..":</b> "..tplayer.getAge().."<br><b>"..Lang["PLAYER_REG"]..":</b> "..tplayer.getRegistration().."<br><b>"..Lang["PLAYER_PHONE"]..":</b> "..tplayer.getPhoneNumber().."<br><b>"..Lang["PLAYER_WALLET"]..":</b> $"..tplayer.getMoney())
+                nFXcli.setDiv(source,"polreg",cfg["police"].regcss,"<center><b>"..Lang["REG_TITLE"].."</b></center><b>ID:</b> "..tid.."<br><b>"..Lang["PLAYER_NAME"]..":</b> "..tplayer.getName().." "..tplayer.getLastname().."<br><b>"..Lang["PLAYER_AGE"]..":</b> "..tplayer.getAge().."<br><b>"..Lang["PLAYER_REG"]..":</b> "..tplayer.getRegistration().."<br><b>"..Lang["PLAYER_PHONE"]..":</b> "..tplayer.getPhoneNumber().."<br><b>"..Lang["PLAYER_WALLET"]..":</b> $"..tplayer.getMoney())
 			    nFX.request(source,"Você deseja fechar o registro geral?",1000)
                 nFXcli.removeDiv(source,"polreg")
             else
                 local nsource = nFXcli.getNearestPlayer(source,2.0)
                 local tplayer = nFX.getPlayer(nsource)
                 if tplayer then
-                    nFXcli.setDiv(source,"polreg",cfg["police"].regcss,"<center><b>"..Lang["REG_TITLE"].."</b></center><b>Source:</b> "..tplayer.."<br><b>"..Lang["PLAYER_NAME"]..":</b> "..tplayer.getName().." "..tplayer.getLastname().."<br><b>"..Lang["PLAYER_AGE"]..":</b> "..tplayer.getAge().."<br><b>"..Lang["PLAYER_REG"]..":</b> "..tplayer.getRegistration().."<br><b>"..Lang["PLAYER_PHONE"]..":</b> "..tplayer.getPhoneNumber().."<br><b>"..Lang["PLAYER_WALLET"]..":</b> $"..tplayer.getMoney())
+                    nFXcli.setDiv(source,"polreg",cfg["police"].regcss,"<center><b>"..Lang["REG_TITLE"].."</b></center><b>ID:</b> "..tplayer.."<br><b>"..Lang["PLAYER_NAME"]..":</b> "..tplayer.getName().." "..tplayer.getLastname().."<br><b>"..Lang["PLAYER_AGE"]..":</b> "..tplayer.getAge().."<br><b>"..Lang["PLAYER_REG"]..":</b> "..tplayer.getRegistration().."<br><b>"..Lang["PLAYER_PHONE"]..":</b> "..tplayer.getPhoneNumber().."<br><b>"..Lang["PLAYER_WALLET"]..":</b> $"..tplayer.getMoney())
                     nFX.request(source,"Você deseja fechar o registro geral?",1000)
                     nFXcli.removeDiv(source,"polreg")
                 end

@@ -24,18 +24,18 @@ Lang = module("nfx_admin","config/locales/"..cfg["main"].locale)
 RegisterCommand("wl", function(source,args,rawCMD)
     if args[1] then
         local player = nFX.getPlayer(source)
-        if player and player.haveAccessLevel(cfg["main"].cmd_access["wl"]) then
-            local license = nFX.prompt(source,Lang["LICENSE"],"")
-            nFX.setWhitelisted(license,true)
+        local pid = parseInt(args[1])
+        if player and player.haveAccessLevel(cfg["main"].cmd_access["wl"]) and (pid > 0) then
+            nFX.setWhitelisted(pid,true)
         end   
     end 
 end, false)
 RegisterCommand("unwl", function(source,args,rawCMD)
     if args[1] then
         local player = nFX.getPlayer(source)
-        if player and player.haveAccessLevel(cfg["main"].cmd_access["wl"]) then
-            local license = nFX.prompt(source,Lang["LICENSE"],"")
-            nFX.setWhitelisted(license,false)
+        local pid = parseInt(args[1])
+        if player and player.haveAccessLevel(cfg["main"].cmd_access["wl"]) and (pid > 0) then
+            nFX.setWhitelisted(pid,false)
         end   
     end 
 end, false)
@@ -45,35 +45,32 @@ end, false)
 RegisterCommand("ban", function(source,args,rawCMD)
     if args[1] then
         local player = nFX.getPlayer(source)
+        local pid = parseInt(args[1])
         if player and player.haveAccessLevel(cfg["main"].cmd_access["ban"]) then
-            local tplayer = nFX.getPlayer(parseInt(args[1]))
-            if tplayer then
-                local license = tplayer.identifier
+            if (pid > 0) then
+                local tplayer = nFX.getPlayerById(pid)
                 local time = parseInt(nFX.prompt(source,Lang["BAN_PROMPT"],""))
-                if time == -1 then
-                    nFX.setBanned(license,-1)
-                    tplayer.kick("Banned")
-                elseif time > 0 then
-                    local expires = os.time() + (time*60*60)
-                    nFX.setBanned(license,expires)
-                    tplayer.kick("Banned")
-                elseif time == 0 then
-                    nFX.setBanned(license,0)
+                if tplayer then
+                    if time == -1 then
+                        nFX.setBanned(pid,-1)
+                        tplayer.kick("Banned")
+                    elseif time > 0 then
+                        local expires = os.time() + (time*60*60)
+                        nFX.setBanned(pid,expires)
+                        tplayer.kick("Banned")
+                    elseif time == 0 then
+                        nFX.setBanned(pid,0)
+                    end
+                else
+                    if time == -1 then
+                        nFX.setBanned(pid,-1)
+                    elseif time > 0 then
+                        local expires = os.time() + (time*60*60)
+                        nFX.setBanned(pid,expires)
+                    elseif time == 0 then
+                        nFX.setBanned(pid,0)
+                    end
                 end
-            end
-        end   
-    else
-        local player = nFX.getPlayer(source)
-        if player and player.haveAccessLevel(cfg["main"].cmd_access["ban"]) then
-            local license = nFX.prompt(source,Lang["LICENSE"],"")
-            local time = parseInt(nFX.prompt(source,Lang["BAN_PROMPT"],""))
-            if time == -1 then
-                nFX.setBanned(license,-1)
-            elseif time > 0 then
-                local expires = os.time() + (time*60*60)
-                nFX.setBanned(license,expires)
-            elseif time == 0 then
-                nFX.setBanned(license,0)
             end
         end   
     end 
@@ -131,7 +128,7 @@ RegisterCommand('tptome',function(source,args,rawCommand)
 	local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["tptome"]) then
 		if args[1] then
-			local tplayer = nFX.getPlayer(parseInt(args[1]))
+			local tplayer = nFX.getPlayerById(parseInt(args[1]))
             if tplayer then
                 local vec = nFXcli.getPosition(source)
 				nFXcli.teleport(tplayer.getSource(),vec)
@@ -146,7 +143,7 @@ RegisterCommand('tpto',function(source,args,rawCommand)
 	local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["tpto"]) then
 		if args[1] then
-			local tplayer = nFX.getPlayer(parseInt(args[1]))
+			local tplayer = nFX.getPlayerById(parseInt(args[1]))
             if tplayer then
                 local vec = nFXcli.getPosition(tplayer.getSource())
                 nFXcli.teleport(source,vec.x,vec.y,vec.z+1.2)
@@ -161,7 +158,7 @@ RegisterCommand('setgroup',function(source,args,rawCommand)
 	local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["setgroup"]) then
 		if args[1] and args[2] and args[3] then
-            local tplayer = nFX.getPlayer(parseInt(args[1]))
+            local tplayer = nFX.getPlayerById(parseInt(args[1]))
             if tplayer then
                 if tplayer.setGroup(args[2],args[3],true) then
                     TriggerClientEvent("Notify",source,"success", (Lang["GROUP_SET_OK"]):format(args[1],args[2],args[3]) )
@@ -181,7 +178,7 @@ RegisterCommand('remgroup',function(source,args,rawCommand)
 	local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["remgroup"]) then
 		if args[1] and args[2] then
-            local tplayer = nFX.getPlayer(parseInt(args[1]))
+            local tplayer = nFX.getPlayerById(parseInt(args[1]))
             if tplayer then
                 if tplayer.removeGroup(args[2],true) then
                     TriggerClientEvent("Notify",source,"success", (Lang["GROUP_REM_OK"]):format(args[2],args[1]) )
@@ -280,14 +277,14 @@ RegisterCommand('pon',function(source,args,rawCommand)
     local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["pon"]) then
         local players = nFX.getPlayers()
-        local osrcs = ""
+        local oplrs = ""
         local qtd = 0
         for k,v in pairs(players) do
-            osrcs = osrcs..k..", "
+            oplrs = oplrs..k.player_id..", "
             qtd = qtd + 1
         end
         TriggerClientEvent('chatMessage',source,Lang["PON_ONLINE"],{255,160,0},qtd)
-        TriggerClientEvent('chatMessage',source,Lang["PON_SRCS"],{255,160,0},osrcs)
+        TriggerClientEvent('chatMessage',source,Lang["PON_SRCS"],{255,160,0},oplrs)
     end
 end)
 --===========================================================
@@ -297,7 +294,7 @@ RegisterCommand('kick',function(source,args,rawCommand)
 	local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["kick"]) then
 		if args[1] then
-			local tplayer = nFX.getPlayer(parseInt(args[1]))
+			local tplayer = nFX.getPlayerById(parseInt(args[1]))
             if tplayer then
                 local reason = nFX.prompt(source,Lang["KICK_REASON"],"")
 				tplayer.kick( (Lang["KICK_MSG"]):format(reason) )
@@ -328,7 +325,7 @@ RegisterCommand('god',function(source,args,rawCommand)
     local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["god"]) then
 		if args[1] then
-			local tplayer = nFX.getPlayer(parseInt(args[1]))
+			local tplayer = nFX.getPlayerById(parseInt(args[1]))
 			if tplayer then
 				nFXcli.revivePlayer(tplayer.getSource())
 			end
@@ -343,7 +340,6 @@ end)
 RegisterCommand('godall', function(source, args, rawCommand)
     local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["godall"]) then
-       
         local players = nFX.getPlayers()
         for k,v in pairs(players) do
             local tplayer = nFX.getPlayer(k)
@@ -449,7 +445,7 @@ RegisterCommand('changename',function(source,args,rawCommand)
 	local player = nFX.getPlayer(source)
 	if player.haveAccessLevel(cfg["main"].cmd_access["changename"]) then
 		if args[1] then
-			local tplayer = nFX.getPlayer(parseInt(args[1]))
+			local tplayer = nFX.getPlayerById(parseInt(args[1]))
             if tplayer then
                 local name = nFX.prompt(source,Lang["CHANM_NAME"],tplayer.getName())
                 if name ~= "" and name ~= " " then

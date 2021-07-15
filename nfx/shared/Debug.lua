@@ -1,4 +1,3 @@
-
 local Tools = module("nfx", "shared/Tools")
 
 local Debug = {}

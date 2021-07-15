@@ -52,9 +52,9 @@ end
 
 function nFXcli.ScreenFade(bool,time)
 	if bool then
-		DoScreenFadeOut(time)
+		DoScreenFadeOut(time or 100)
 	else
-		DoScreenFadeIn(time)
+		DoScreenFadeIn(time or 100)
 	end
 end
 
@@ -116,9 +116,6 @@ function nFXcli.SpawnPlayer(data)
 		if data.weapons then
 			nFXcli.giveWeapons(data.weapons,true)
 		end
-		if data.w_customs then
-			nFXcli.GiveWeaponsCustomizations(data.w_customs)
-		end
 		if data.died then
 			nFXcli.setHealth(0)
 		else
@@ -128,7 +125,6 @@ function nFXcli.SpawnPlayer(data)
 
 		player.source = data.source
 		player.player_id = data.player_id
-		player.identifier = data.identifier
 		player.access = data.access
 		player.registration = data.reg
 		player.phone = data.phone
@@ -151,8 +147,7 @@ RegisterCommand("exit",function()
 		nFXsrv.updateArmour(nFXcli.getArmour())
 		nFXsrv.updateClothes(nFXcli.getClothes())
 		nFXsrv.updatePosition(nFXcli.getPosition(),nFXcli.getHeading())
-		local weapons = nFXcli.getWeapons()
-		nFXsrv.updateWeapons(weapons,nFXcli.GetWeaponsCustomizations(weapons))
+		nFXsrv.updateWeapons(nFXcli.getWeapons())
 		RestartGame()
 	end
 end,false)
@@ -167,8 +162,7 @@ Citizen.CreateThread(function()
 			Citizen.Wait(2500)
 			nFXsrv._updatePosition(nFXcli.getPosition(),nFXcli.getHeading())
 			Citizen.Wait(2500)
-			local weapons = nFXcli.getWeapons()
-			nFXsrv._updateWeapons(weapons,nFXcli.GetWeaponsCustomizations(weapons))
+			nFXsrv._updateWeapons(nFXcli.getWeapons())
 			Citizen.Wait(2500)
 		else
 			Citizen.Wait(1000)
@@ -184,7 +178,7 @@ AddEventHandler("nFX:CLI:SyncDelObj",function(index)
 		local obj = NetToObj(index)
 		if DoesEntityExist(obj) then
 			SetEntityAsMissionEntity(obj,false,false)
-			SetPedAsNoLongerNeeded(Citizen.PointerValueIntInitialized(obj))
+			SetObjectAsNoLongerNeeded(Citizen.PointerValueIntInitialized(obj))
 			DeleteObject(obj)
 		end
 	end
@@ -209,7 +203,7 @@ AddEventHandler("nFX:CLI:SyncDelVeh",function(index)
 		if DoesEntityExist(veh) then
 			SetEntityAsMissionEntity(veh,false,false)
 			SetVehicleHasBeenOwnedByPlayer(veh,false)
-			SetPedAsNoLongerNeeded(Citizen.PointerValueIntInitialized(veh))
+			SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(veh))
 			DeleteVehicle(veh)
 		end
 	end

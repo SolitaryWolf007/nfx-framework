@@ -25,7 +25,7 @@ if IsDuplicityVersion() then
 
                 local r = async()
                 API:execute(query,params or {},function(result)
-                    r(result,#result)
+                    r(result)
                 end)
                 return r:wait()
                 
@@ -39,7 +39,7 @@ if IsDuplicityVersion() then
 
                 local r = async()
                 API:execute(query,params or {},function(result)
-                    r(#result)
+                    r(result)
                 end)
                 return r:wait()
 

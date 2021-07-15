@@ -41,9 +41,9 @@ end
 --==============================================================
 -- VEHICLE IS HIDDEN
 --==============================================================
-function nFX.vehicleIsHidden(model)
+function nFX.vehicleType(model)
     if cfg["vehicles"].data[model] then
-        return cfg["vehicles"].data[model].hide
+        return cfg["vehicles"].data[model].type
     end
 end
 --==============================================================
@@ -53,6 +53,12 @@ function nFX.vehicleModel(hash)
     if cfg["vehicles"].hashes[hash] then
         return cfg["vehicles"].hashes[hash]
     end
+end
+--==============================================================
+-- GET VEHICLES
+--==============================================================
+function nFX.getVehicles()
+    return cfg["vehicles"].data
 end
 --==============================================================
 -- GET CLASSES

@@ -20,8 +20,7 @@ function nFXcli.isDead()
 	return isdead
 end
 
-function nFXcli.revivePlayer(health)	
-	
+function nFXcli.revivePlayer(health)		
 	local ped = PlayerPedId()
 	if isdead or IsPedFatallyInjured(ped) then
 		local x,y,z = table.unpack(GetEntityCoords(ped))
@@ -38,8 +37,7 @@ end
 
 function nFXcli.PrisionGod()
 	local ped = PlayerPedId()
-	if isdead or IsPedFatallyInjured(ped) then
-		
+	if isdead or IsPedFatallyInjured(ped) then	
 		local x,y,z = table.unpack(GetEntityCoords(ped))
 		NetworkResurrectLocalPlayer(x,y,z,true,true,false)
 		deathtimer = default_deathtimer
@@ -68,9 +66,7 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(128)
-
 		local ped = PlayerPedId()
-
 		if IsPedFatallyInjured(ped) and (not isdead) then
 			isdead = true
 			nFXsrv.setDead(true,0)
@@ -86,9 +82,9 @@ function onDeadThread()
 		while isdead do
 			Citizen.Wait(1)
 			if deathtimer > 0 then
-				drawTxt(0.5,0.8,1.0,1.0,0.80,(Lang["DEATH_TIMER_RUNNING"]):format(deathtimer),255,255,255,150)
+				drawTxt(0.5,0.4,1.0,1.0,0.80,(Lang["DEATH_TIMER_RUNNING"]):format(deathtimer),255,255,255,150)
 			else
-				drawTxt(0.5,0.9,1.0,1.0,0.40,Lang["DEATH_TIMEOUT"],255,255,255,150)
+				drawTxt(0.5,0.4,1.0,1.0,0.40,Lang["DEATH_TIMEOUT"],255,255,255,150)
 				if IsControlJustPressed(0,38) then
 					nFXsrv.onPlayerDead()
 					deathtimer = default_deathtimer

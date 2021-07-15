@@ -10,6 +10,7 @@ nFXcli = Proxy.getInterface("nFX")
 cFX = {}
 sFX = Tunnel.getInterface("nfx_admin")
 Tunnel.bindInterface("nfx_admin",cFX)
+Proxy.addInterface("nfx_admin",cFX)
 --==============================================================
 -- CFG / LANG
 --==============================================================
@@ -136,7 +137,7 @@ function cFX.TuningVehicle()
 	local ped = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(ped)
 	if (not IsPedInAnyVehicle(ped)) then
-		vehicle = nFXcli.getVehicleInDirection(GetEntityCoords(ped),GetOffsetFromEntityInWorldCoords(ped,0.0,10.0,0.0))
+		vehicle = nFXcli.getNearestVehicle(5)
 	end
 	if IsEntityAVehicle(vehicle) then
 		SetVehicleModKit(vehicle,0)
@@ -177,7 +178,7 @@ function cFX.TuningVehicle()
 		SetVehicleTyreSmokeColor(vehicle,0,0,127)
 		SetVehicleWindowTint(vehicle,1)
 		SetVehicleTyresCanBurst(vehicle,false)
-		SetVehicleNumberPlateText(vehicle,"NFXFRAME")
+		--SetVehicleNumberPlateText(vehicle,"NFXFRAME")
 		SetVehicleNumberPlateTextIndex(vehicle,5)
 		SetVehicleModColor_1(vehicle,4,12,0)
 		SetVehicleModColor_2(vehicle,4,12)
@@ -192,7 +193,7 @@ function cFX.HashVehicle()
 	local ped = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(ped)
 	if (not IsPedInAnyVehicle(ped)) then
-		vehicle = nFXcli.getVehicleInDirection(GetEntityCoords(ped),GetOffsetFromEntityInWorldCoords(ped,0.0,10.0,0.0))
+		vehicle = nFXcli.getNearestVehicle(5)
 	end
 	if IsEntityAVehicle(vehicle) then
 		return GetEntityModel(vehicle)
@@ -207,7 +208,7 @@ AddEventHandler('nFX:RepairNearVeh',function()
 	local ped = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(ped)
 	if (not IsPedInAnyVehicle(ped)) then
-		vehicle = nFXcli.getVehicleInDirection(GetEntityCoords(ped),GetOffsetFromEntityInWorldCoords(ped,0.0,10.0,0.0))
+		vehicle = nFXcli.getNearestVehicle(5)
 	end
 	if IsEntityAVehicle(vehicle) then
 		TriggerServerEvent("nFX:SRV:SyncFixVeh",VehToNet(vehicle))
@@ -221,8 +222,8 @@ RegisterNetEvent('nFX:DeleteNearVeh')
 AddEventHandler('nFX:DeleteNearVeh',function()
 	local ped = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(ped)
-	if (not IsPedInAnyVehicle(ped)) then
-		vehicle = nFXcli.getVehicleInDirection(GetEntityCoords(ped),GetOffsetFromEntityInWorldCoords(ped,0.0,5.0,0.0))
+	if (not IsPedInAnyVehicle(ped)) then	
+		vehicle = nFXcli.getNearestVehicle(5)
 	end
 	if IsEntityAVehicle(vehicle) then
 		TriggerServerEvent("nFX:SRV:SyncDelVeh",VehToNet(vehicle))

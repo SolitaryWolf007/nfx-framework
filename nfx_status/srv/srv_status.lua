@@ -33,6 +33,6 @@ function sFX.GetStatus()
 		local reg = player.getRegistration()
 		local phone = player.getPhoneNumber()
 		local jobs = player.getGroups()	
-		return source,pid,money,bank,name,lastname,age,reg,phone,jobs
+		return pid,money,bank,name,lastname,age,reg,phone,jobs
 	end
 end

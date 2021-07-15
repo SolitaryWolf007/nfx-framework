@@ -2,6 +2,10 @@ local config = {}
 --======================================================
 -- PLAYER
 --======================================================
+config.default_name = "New"
+config.default_lname = "User"
+config.default_age = 18
+
 -- default clothes
 config.default_clothes = {
     modelhash = 1885233650

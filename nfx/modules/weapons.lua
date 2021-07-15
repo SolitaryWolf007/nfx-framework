@@ -1,7 +1,6 @@
-function nFXsrv.updateWeapons(weapons,customs)
+function nFXsrv.updateWeapons(weapons)
     local player = nFX.getPlayer(source)
-    if player and weapons and customs then
+    if player and weapons then
         player.updateWeapons(weapons)
-        player.updateWeaponsCustoms(customs)
     end
 end

@@ -94,41 +94,35 @@ end
 -- SHOTS
 --==============================================================
 local blacklistedWeapons = {
-	"WEAPON_DAGGER",
-	"WEAPON_BAT",
-	"WEAPON_BOTTLE",
-	"WEAPON_CROWBAR",
-	"WEAPON_FLASHLIGHT",
-	"WEAPON_GOLFCLUB",
-	"WEAPON_HAMMER",
-	"WEAPON_HATCHET",
-	"WEAPON_KNUCKLE",
-	"WEAPON_KNIFE",
-	"WEAPON_MACHETE",
-	"WEAPON_SWITCHBLADE",
-	"WEAPON_NIGHTSTICK",
-	"WEAPON_WRENCH",
-	"WEAPON_BATTLEAXE",
-	"WEAPON_POOLCUE",
-	"WEAPON_STONE_HATCHET",
-	"WEAPON_STUNGUN",
-	"WEAPON_FLARE",
-	"GADGET_PARACHUTE",
-	"WEAPON_FIREEXTINGUISHER",
-	"WEAPON_PETROLCAN"
+	[GetHashKey("WEAPON_DAGGER")] = true,
+	[GetHashKey("WEAPON_BAT")] = true,
+	[GetHashKey("WEAPON_BOTTLE")] = true,
+	[GetHashKey("WEAPON_CROWBAR")] = true,
+	[GetHashKey("WEAPON_FLASHLIGHT")] = true,
+	[GetHashKey("WEAPON_GOLFCLUB")] = true,
+	[GetHashKey("WEAPON_HAMMER")] = true,
+	[GetHashKey("WEAPON_HATCHET")] = true,
+	[GetHashKey("WEAPON_KNUCKLE")] = true,
+	[GetHashKey("WEAPON_KNIFE")] = true,
+	[GetHashKey("WEAPON_MACHETE")] = true,
+	[GetHashKey("WEAPON_SWITCHBLADE")] = true,
+	[GetHashKey("WEAPON_NIGHTSTICK")] = true,
+	[GetHashKey("WEAPON_WRENCH")] = true,
+	[GetHashKey("WEAPON_BATTLEAXE")] = true,
+	[GetHashKey("WEAPON_POOLCUE")] = true,
+	[GetHashKey("WEAPON_STONE_HATCHET")] = true,
+	[GetHashKey("WEAPON_STUNGUN")] = true,
+	[GetHashKey("WEAPON_FLARE")] = true,
+	[GetHashKey("GADGET_PARACHUTE")] = true,
+	[GetHashKey("WEAPON_FIREEXTINGUISHER")] = true,
+	[GetHashKey("WEAPON_PETROLCAN")] = true
 }
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
 		local ped = PlayerPedId()
 		if IsPedShooting(ped) then
-            local blacklistweapon = false
-            for k,v in ipairs(blacklistedWeapons) do
-                if GetSelectedPedWeapon(ped) == GetHashKey(v) then
-                    blacklistweapon = true
-                end
-            end
-			if not blacklistweapon then
+			if (not blacklistedWeapons[GetSelectedPedWeapon(ped)]) then
                 sPOLICE.PlayerShooting()
             end
 		end

@@ -3,7 +3,7 @@ game "gta5"
 
 author 'Summerz' --> (https://github.com/contatosummerz/vrpex/tree/master/vrp_notify)
 modification 'SolitaryWolf007'
-description 'nFX Notify'
+description 'nFX NUI'
 version '1.0'
 
 client_scripts {

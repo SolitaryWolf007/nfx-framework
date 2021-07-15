@@ -7,10 +7,9 @@ version "1.0"
 
 ui_page "cli/gui/index.html"
 
---[[
-	- Special thanks to ImagicTheCat (https://github.com/ImagicTheCat/vRP/tree/1.0/vrp), for developing the GUI script and for the libraries (shared/).
-	- Special thanks to beetle2k (https://github.com/beetle2k/vRP-B2K), for the GUI design <3
-]]
+
+--		- Special thanks to ImagicTheCat (https://github.com/ImagicTheCat/vRP/tree/1.0/vrp), for developing the GUI script and for the libraries (shared/).
+--		- Special thanks to beetle2k (https://github.com/beetle2k/vRP-B2K), for the GUI design <3
 
 client_scripts {
 	"shared/utils.lua",
@@ -21,6 +20,7 @@ client_scripts {
 	"cli/survival.lua",
 	"cli/vehicles.lua",
 	"cli/weapons.lua",
+	"cli/weather.lua"
 }
 
 server_scripts { 
@@ -35,19 +35,13 @@ server_scripts {
 	"modules/survival.lua",
 	"modules/vehicles.lua",
 	"modules/weapons.lua",
+	"modules/weather.lua"
 }
 
 files {
 	"shared/*.lua",
 	"config/*.lua",
 	"config/**/*.lua",
-	"cli/gui/index.html",
-	"cli/gui/design.css",
-	"cli/gui/main.js",
-	"cli/gui/Menu.js",
-	"cli/gui/WPrompt.js",
-	"cli/gui/RequestManager.js",
-	"cli/gui/Div.js",
-	"cli/gui/dynamic_classes.js",
-	"cli/gui/fonts/*",
+	"cli/gui/*",
+	"cli/gui/**/*",
 }
