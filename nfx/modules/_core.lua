@@ -78,7 +78,7 @@ AddEventHandler("playerConnecting",function(name, setKickReason,deferrals)
                 deferrals.done(Lang["CONNECTING_IS_BAN"].." "..banned)
             end
         else
-            deferrals.done(Lang["CONNECTING_NO_WL"].."\n"..player_id)
+            deferrals.done(Lang["CONNECTING_NO_WL"].." "..player_id)
         end
     else
         deferrals.done(Lang["CONNECTING_FATAL"])

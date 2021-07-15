@@ -18,7 +18,7 @@ local modules = {}
 -- load a lua resource file as module
 -- rsc: resource name
 -- path: lua file path without extension
-function module(rsc, path)
+function module(rsc, path, reload)
   if rsc == nil  then
     error("error loading module, 'rsc' is nil")
   end
@@ -29,7 +29,7 @@ function module(rsc, path)
   local key = rsc..path
 
   local module = modules[key]
-  if module then -- cached module
+  if module and (not reload) then -- cached module
     return module
   else
     local code = LoadResourceFile(rsc, path..".lua")
