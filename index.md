@@ -17,7 +17,7 @@ nFX It is a framework for fivem that I started to develop with free time, theref
 
 ```lua
     -- called when the player is readable to connect to the server. (S->S)
-    AddEventHandler("nFX:playerConnected",function(source,license) end)
+    AddEventHandler("nFX:playerConnected",function(source,player_id) end)
 
     -- called on the player's first spawn. (C->S)
     AddEventHandler("nFX:playerSpawned",function() end)
@@ -26,7 +26,7 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     AddEventHandler("nFX:playerRespawned",function() end)
 
     -- called when the player disconnects from the server. (S->S)
-    AddEventHandler("nFX:playerDropped",function(source,license,id) end)
+    AddEventHandler("nFX:playerDropped",function(source,player_id) end)
 
     -- called when the data will be saved. (S->S)
     AddEventHandler("nFX:save",function() end)
@@ -57,7 +57,7 @@ nFX It is a framework for fivem that I started to develop with free time, theref
 ### _core.lua
 ```lua
     -- returns a table with player definitions.
-    --{ source, id, identifier, access, registration, phone }
+    --{ source, player_id, access, registration, phone }
     nFXcli.getPlayerDef()
     
     -- triggers the ScreenFade effect.
@@ -306,41 +306,47 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     -- source: source
     nFX.getSourceIpv4(source)
 
-    -- returns the license of the source.
-    -- source: source
-    nFX.getSourceLicense(source)
+    -- returns the player_id by identifiers
+    -- ids: identifiers
+    -- create: bool (create new user?)
+    nFX.getPlayerByIdentifiers(ids,create)
 
     -- returns the player's object, through the source.
     -- source: source
     nFX.getPlayer(source)
+    
+    -- returns the player's object, through the player_id.
+    -- player_id: player_id
+    nFX.getPlayerById(player_id)
 
-    -- returns a table with all players, indexed by source, with license and player id.
+    -- returns a table with all players, indexed by source, with player_id.
     nFX.getPlayers()
 
-    -- returns a table containing the players' source.
-    nFX.getSourcesList()
+    -- returns the source of player_id.
+    -- player_id: player_id
+    nFX.getSourceById(player_id)
 
     -- returns a generated string.
     -- format: string (D: Number, L: Letter)
     nFX.generateStringNumber(format)
 
-    -- returns if the license is banned.
-    -- license: license
-    nFX.checkIsBanned(license)
+    -- returns if the player_id is banned.
+    -- player_id: player_id
+    nFX.checkIsBanned(player_id)
 
-    -- set license as banned.
-    -- license: license
+    -- set player_id as banned.
+    -- player_id: player_id
     -- time: os.time() + seconds of ban. or -1
-    nFX.setBanned(license,time)
+    nFX.setBanned(player_id,time)
 
-    -- returns if the license is whitelisted.
-    -- license: license
-    nFX.checkIsWhitelisted(license)
+    -- returns if the player_id is whitelisted.
+    -- player_id: player_id
+    nFX.checkIsWhitelisted(player_id)
 
-    -- set license as banned.
-    -- license: license
+    -- set player_id as banned.
+    -- player_id: player_id
     -- bool: true, whitelisted, false, not whitelisted
-    nFX.setWhitelisted(license,bool)    
+    nFX.setWhitelisted(player_id,bool)    
 ```
 ### groups.lua
 ```lua
@@ -438,14 +444,14 @@ nFX It is a framework for fivem that I started to develop with free time, theref
     -- id: character id
     nFX.getPlayerIdentity(id)
 
-    -- returns the character id and the license through the registration
+    -- returns the character id and the player_id through the registration
     -- registration: string
     nFX.getPlayerByRegistration(registration)
 
     -- returns a string from an RG not saved in the database.
     nFX.generateRegistrationNumber()
 
-    -- returns the character id and the license through the phone
+    -- returns the character id and the player_id through the phone
     -- phone: string
     nFX.getPlayerByPhone(phone)
 
@@ -471,14 +477,11 @@ Through the player's object, it is possible to do all the management of it, here
     -- ...: args
     player.CallTunnel(funcname,...)
 
-    -- returns the character id
-    player.getDataId()
-
     -- returns the player's source.
     player.getSource()
 
-    -- returns the player's license.
-    player.getLicense()
+    -- returns the player's player_id.
+    player.getPlayerId()
 
     -- returns if the player has indicated access level.
     -- level: nameoflevel
